@@ -1,4 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { TablesComponent } from './tables/tables.component';
+import { LoginService } from './services/login.service';
 
 @Component({
   selector: 'app-root',
@@ -6,5 +8,15 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'angular13-football-betting-app';
+  title: string = 'angular13-football-betting-app';
+  isDarkEnable = false;
+
+  constructor(public loginService: LoginService){}
+   ngOnInit() {
+
+
 }
+
+
+}
+

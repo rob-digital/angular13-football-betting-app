@@ -1,0 +1,18 @@
+@media only screen and (min-width: 1280px) {
+  .myContainer {
+    margin: 0 20%;
+  }
+  .myTable {
+
+    border-radius: 5px;
+  }
+}
+.verticalAdjustment {
+  transform: rotate(270deg);
+    font-size: xx-large;
+    position: absolute;
+    /* top: 60px; */
+    bottom: -150px;
+    // color: red;
+    left: -96px;
+}
