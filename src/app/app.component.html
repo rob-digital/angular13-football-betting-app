@@ -9,30 +9,72 @@
             <img class="block h-8 w-auto lg:hidden" src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500" alt="Your Company">
             <img class="hidden h-8 w-auto lg:block" src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500" alt="Your Company">
           </div>
-          <div class="hidden sm:ml-6 sm:block">
+          <div class="hidden sm:ml-6 sm:block text-lg">
             <div class="flex space-x-4">
               <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
-              <a href="#" class="bg-gray-300 text-white  px-3 py-2 rounded-md text-sm font-medium active:bg-gray-200" aria-current="page" >Dashboard</a>
+              <a
+                class="bg-gray-300 text-white text-lg px-3 py-2 rounded-md text-sm font-medium active:bg-gray-200"
+                aria-current="page"
+                >Dashboard</a>
 
-              <a href="#" *ngIf="loginService.currentUserName == null" routerLink="login" class="text-gray-300 hover:bg-gray-700 active:bg-indigo-500 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Login</a>
-              <span *ngIf="loginService.currentUserName != null" class="text-gray-300 hover:bg-gray-700 active:bg-indigo-500 hover:text-white px-3 py-2 rounded-md text-sm font-medium">{{ loginService.currentUsername }}</span>
-              <a href="#" (click)="loginService.Logout()" *ngIf="loginService.currentUserName != null" class="text-gray-300 hover:bg-gray-700 active:bg-indigo-500 hover:text-white px-3 py-2 rounded-md text-sm font-medium">logout</a>
+              <a
+                *ngIf="loginService.currentUserName == null"
+                routerLink="login"
+                [routerLinkActive]="['class1']"
+                class="text-gray-300 navLink hover:bg-gray-700 active:bg-indigo-500 hover:text-white px-3 py-2 rounded-md text-lg font-medium"
+                >Login</a>
 
-              <a routerLink="bet" *ngIf="loginService.currentUserName != null" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium active:bg-indigo-500">Bet</a>
+                <span *ngIf="loginService.currentUserName != null" class="text-gray-300 hover:bg-gray-700 active:bg-indigo-500 hover:text-white px-3 py-2 rounded-md text-lg font-medium"
+                >{{ loginService.currentUsername }}</span>
 
-              <a routerLink="futureGames" *ngIf="loginService.currentUserName != null" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Future Games</a>
+                <a
+                (click)="loginService.Logout()"
+                *ngIf="loginService.currentUserName != null"
+                class="text-gray-300 hover:bg-gray-700 active:bg-indigo-500 hover:text-white px-3 py-2 rounded-md text-lg font-medium"
+                >logout</a>
 
-              <a routerLink="leaderBoard" *ngIf="loginService.currentUserName != null" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Leader Board</a>
+              <a
+                routerLink="bet"
+                [routerLinkActive]="['class1']"
+                *ngIf="loginService.currentUserName != null"
+                class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-lg font-medium active:bg-indigo-500"
+                >Bet</a>
 
-              <a routerLink="tables" *ngIf="loginService.currentUserName == null" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Tables</a>
-            </div>
+              <a
+                routerLink="futureGames"
+                [routerLinkActive]="['class1']"
+                *ngIf="loginService.currentUserName == null"
+                class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-lg font-medium"
+                >Future Games</a>
+
+              <a
+                routerLink="leaderBoard"
+                [routerLinkActive]="['class1']"
+                *ngIf="loginService.currentUserName != null"
+                class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-lg font-medium"
+                >Leader Board</a>
+
+              <a
+                routerLink="tables"
+                [routerLinkActive]="['class1']"
+                *ngIf="loginService.currentUserName == null"
+                class="navLink text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-lg font-medium"
+                >Tables</a>
+
+              </div>
           </div>
         </div>
         <div class="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
           <div class="flex justify-center">
             <div class="form-check form-switch">
-              <input class="form-check-input appearance-none w-9 -ml-10 rounded-full float-left h-5 align-top bg-white bg-no-repeat bg-contain bg-gray-300 focus:outline-none cursor-pointer shadow-sm" type="checkbox" role="switch" id="flexSwitchCheckDefault">
-              <label class="form-check-label inline-block text-gray-800" for="flexSwitchCheckDefault">Default switch checkbox input</label>
+              <input
+                [(ngModel)]="isDarkEnable"
+                class="form-check-input appearance-none w-9 -ml-10 rounded-full float-left h-6 align-top bg-gray bg-no-repeat bg-contain bg-gray-600 focus:outline-none cursor-pointer shadow-sm"
+                type="checkbox"
+                role="switch"
+                id="flexSwitchCheckDefault">
+              <label *ngIf="!isDarkEnable" class="form-check-label inline-block text-white" for="flexSwitchCheckDefault">Go dark</label>
+              <label *ngIf="isDarkEnable" class="form-check-label inline-block text-white" for="flexSwitchCheckDefault">Go light</label>
             </div>
           </div>
           <button type="button" class="rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
@@ -43,7 +85,6 @@
               d="M7.23 3.333C7.757 2.905 7.68 2 7 2a6 6 0 1 0 0 12c.68 0 .758-.905.23-1.332A5.989 5.989 0 0 1 5 8c0-1.885.87-3.568 2.23-4.668ZM12 5a1 1 0 0 1 1 1 1 1 0 0 0 1 1 1 1 0 1 1 0 2 1 1 0 0 0-1 1 1 1 0 1 1-2 0 1 1 0 0 0-1-1 1 1 0 1 1 0-2 1 1 0 0 0 1-1 1 1 0 0 1 1-1Z"
               ></path></svg>
           </button>
-          <div class="pointer-events-auto h-6 w-10 rounded-full p-1 ring-1 ring-inset transition duration-200 ease-in-out bg-slate-900/10 ring-slate-900/5"><div class="h-4 w-4 rounded-full bg-white shadow-sm ring-1 ring-slate-700/10 transition duration-200 ease-in-out"></div></div>
           <!-- Profile dropdown -->
         </div>
       </div>

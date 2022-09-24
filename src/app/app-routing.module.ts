@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { LoginComponent } from './login/login.component';
-import { TablesComponent } from './tables/tables.component';
-import { BetComponent } from './bet/bet.component';
+import { LoginComponent } from './components/login/login.component';
+import { TablesComponent } from './components/tables/tables.component';
+import { BetComponent } from './components/bet/bet.component';
 
 const routes: Routes = [
   // { path: "", redirectTo: "login", pathMatch: "full"},

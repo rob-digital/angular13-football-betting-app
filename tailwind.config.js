@@ -7,7 +7,15 @@ module.exports = {
   ],
   theme: {
 
-    extend: {},
+    extend: {
+      fontFamily: {
+        'sans': ['Raleway-Regular', 'Helvetica', 'Arial', 'sans-serif']
+      },
+      colors: {
+        highlight1: '#EA4C3C'
+      }
+    },
+
   },
   plugins: [
     require('tw-elements/dist/plugin')

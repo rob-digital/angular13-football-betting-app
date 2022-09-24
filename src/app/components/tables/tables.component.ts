@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { Flag } from '../classes/flag';
-import { Team } from '../classes/team';
-import { TablesService } from '../services/tables.service';
+import { Flag } from '../../classes/flag';
+import { Team } from '../../classes/team';
+import { TablesService } from '../../services/tables.service';
 
 @Component({
   selector: 'app-tables',
@@ -12,10 +12,10 @@ export class TablesComponent implements OnInit {
 
   isDarkEnable = false;
   teams: Team[];
-  groupNames: string[]
-  allGroupsArray: any[]
-  flagsURL: string = "https://hatscripts.github.io/circle-flags/flags/"
-  extension: string = ".svg"
+  groupNames: string[];
+  allGroupsArray: any[] = null;
+  flagsURL: string = "https://hatscripts.github.io/circle-flags/flags/";
+  extension: string = ".svg";
 
   constructor(private tableService: TablesService) { }
 

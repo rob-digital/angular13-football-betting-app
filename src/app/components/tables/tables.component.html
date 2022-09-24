@@ -1,11 +1,19 @@
 <div [ngClass]="{ dark: isDarkEnable }">
-  <div class="min-w-screen  bg-transparent flex items-center justify-center  font-sans overflow-hidden">
+
+  <div *ngIf="allGroupsArray == null" class="flex items-center justify-center mt-10">
+    <div class="spinner-border animate-spin inline-block w-8 h-8 border-4 rounded-full" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+  </div>
+
+
+  <div *ngIf="allGroupsArray != null" class="min-w-screen  bg-transparent flex items-center justify-center  font-sans overflow-hidden">
       <div class="myContainer w-5/6">
           <div *ngFor="let group of allGroupsArray; let i = index" class="shadow-md rounded-lg my-16">
               <table  class="w-full myTable table-auto rounded-lg text-base">
                   <thead>
-                      <tr class="bg-blue-700 dark:bg-pink-500 text-white relative uppercase text-sm leading-normal">
-                          <th class="verticalAdjustment text-red-500 dark:text-white">{{ group[3].groupName }}</th>
+                      <tr class="bg-gradient-to-r from-sky-600 to-blue-600 text-white dark:bg-gradient-to-r dark:from-blue-300 dark:to-sky-300  dark:text-gray-800  relative uppercase text-sm leading-normal">
+                          <th class="verticalAdjustment text-highlight1 dark:text-white">{{ group[3].groupName }}</th>
                           <th class="py-3 px-6 text-left text-lg italic rotate-90"></th>
                           <th class="py-3 px-6 text-center">Team</th>
                           <th class="py-3 px-6 text-center">Win</th>
