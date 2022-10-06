@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AllGamesService } from '../../services/all-games.service';
 
 @Component({
   selector: 'app-future-games',
@@ -7,9 +8,35 @@ import { Component, OnInit } from '@angular/core';
 })
 export class FutureGamesComponent implements OnInit {
 
-  constructor() { }
+  isDarkEnable = false;
+  allGames: any[] = [];
+  gamesByDatesArray: any[] = [];
+  dailyGamesArray: any[] = null;
+  flagsURL: string = "https://hatscripts.github.io/circle-flags/flags/";
+  extension: string = ".svg";
+
+  constructor(private futureGamesService: AllGamesService) { }
 
   ngOnInit(): void {
-  }
 
+    this.futureGamesService.getAllGames().subscribe(
+      (response) => {
+        this.allGames = response
+        // console.log('this.allGames:', this.allGames)
+        const uniqueDates = new Set(this.allGames.map(el => el.matchDate))
+        let allDatesArray = [...uniqueDates]
+
+        let dailyGamesArray = [];
+        for(let i=0;i<allDatesArray.length;i++){
+          dailyGamesArray.push(this.allGames.filter((el, j) =>el.matchDate == allDatesArray[i]));
+        }
+        this.dailyGamesArray = dailyGamesArray;
+        console.log('vals:', dailyGamesArray)
+
+      },
+      (error) => {
+        console.log("Future games service error: ", error);
+      }
+    )
+  }
 }

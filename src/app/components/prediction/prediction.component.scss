@@ -1,0 +1,22 @@
+.modalContent {
+  display: grid;
+  grid-template-columns: [first] 20% auto [last] 20%;
+
+}
+
+.currentGamesContainer
+{
+  max-width: 800px;
+}
+
+.gridView
+{
+  // grid-template-columns: calc(5 / 12 * 100%) calc(4 / 12 * 100%) calc(3 / 12 * 100%);
+  grid-template-columns: 20fr 15fr 10fr 2fr 10fr 15fr 20fr;
+  // grid-template-columns: [first] 20% auto [last] 20%;
+}
+
+#addToSlip {
+  right: -135px;
+  top: 19px;
+}

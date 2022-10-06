@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { TablesComponent } from './components/tables/tables.component';
+import { TablesComponent } from './tables/tables.component';
 import { LoginService } from './services/login.service';
+import { AuthenticationService } from './services/authentication.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -10,18 +12,27 @@ import { LoginService } from './services/login.service';
 export class AppComponent {
   title: string = 'angular13-football-betting-app';
   isDarkEnable = false;
-  selected: boolean = false;
-  isActivePage: boolean = false;
-navLinks: []
-  constructor(public loginService: LoginService){}
+  // selected: boolean = false;
+  // isActivePage: boolean = false;
+  // navLinks: []
+  // name: string = ""
+
+  activeUser: boolean = false;
+
+  constructor(public authenticationService: AuthenticationService, public router: Router){
+
+  }
    ngOnInit() {
 
-     let navLinks = Array.from(document.querySelectorAll('a'));
-     console.log('navLinks:', navLinks)
-     document.links.length
-     console.log('document.links.length:', document.links.length)
-     document.links.item
-     console.log('document.links.item:', document.links.item)
+    if (localStorage.getItem("currentUser") != null) {
+      this.authenticationService.currentUsername  = JSON.parse(localStorage.getItem("currentUser")).name;
+    } else {
+      this.authenticationService.currentUsername = null
+    }
+    // this.name = JSON.parse(localStorage['currentUser']);
+    // console.log('this.name:', this.name)
+    // console.log("rts", this.authenticationService.currentUsername);
+
    }
 
   //  onMenuLinkClick(event){

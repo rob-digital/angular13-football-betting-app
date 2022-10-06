@@ -5,61 +5,51 @@
       <div class="relative flex h-16 items-center justify-between">
 
         <div class="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
-          <div class="flex flex-shrink-0 items-center">
-            <img class="block h-8 w-auto lg:hidden" src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500" alt="Your Company">
-            <img class="hidden h-8 w-auto lg:block" src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500" alt="Your Company">
-          </div>
+
           <div class="hidden sm:ml-6 sm:block text-lg">
             <div class="flex space-x-4">
               <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
-              <a
-                class="bg-gray-300 text-white text-lg px-3 py-2 rounded-md text-sm font-medium active:bg-gray-200"
-                aria-current="page"
-                >Dashboard</a>
 
               <a
-                *ngIf="loginService.currentUserName == null"
+                *ngIf="authenticationService.currentUsername == null"
                 routerLink="login"
                 [routerLinkActive]="['class1']"
                 class="text-gray-300 navLink hover:bg-gray-700 active:bg-indigo-500 hover:text-white px-3 py-2 rounded-md text-lg font-medium"
                 >Login</a>
 
-                <span *ngIf="loginService.currentUserName != null" class="text-gray-300 hover:bg-gray-700 active:bg-indigo-500 hover:text-white px-3 py-2 rounded-md text-lg font-medium"
-                >{{ loginService.currentUsername }}</span>
 
-                <a
-                (click)="loginService.Logout()"
-                *ngIf="loginService.currentUserName != null"
-                class="text-gray-300 hover:bg-gray-700 active:bg-indigo-500 hover:text-white px-3 py-2 rounded-md text-lg font-medium"
-                >logout</a>
+                <span *ngIf="authenticationService.currentUsername != null" class="text-gray-300 hover:bg-gray-700 active:bg-indigo-500 hover:text-white px-3 py-2 rounded-md text-lg font-medium"
+                >Hi, {{ authenticationService.currentUsername }}</span>
 
               <a
-                routerLink="bet"
+                *ngIf="authenticationService.currentUsername != null"
+                routerLink="predict"
                 [routerLinkActive]="['class1']"
-                *ngIf="loginService.currentUserName != null"
-                class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-lg font-medium active:bg-indigo-500"
-                >Bet</a>
+                class="text-gray-300 navLink hover:bg-gray-700 active:bg-indigo-500 hover:text-white px-3 py-2 rounded-md text-lg font-medium"
+                >Predict</a>
+
 
               <a
-                routerLink="futureGames"
-                [routerLinkActive]="['class1']"
-                *ngIf="loginService.currentUserName == null"
-                class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-lg font-medium"
-                >Future Games</a>
+              routerLink="tables"
+              [routerLinkActive]="['class1']"
+              *ngIf="authenticationService.currentUsername != null"
+              class="navLink text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-lg font-medium"
+              >Tables</a>
 
               <a
                 routerLink="leaderBoard"
                 [routerLinkActive]="['class1']"
-                *ngIf="loginService.currentUserName != null"
+                *ngIf="authenticationService.currentUsername != null"
                 class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-lg font-medium"
                 >Leader Board</a>
 
-              <a
-                routerLink="tables"
+                <a
+                (click)="authenticationService.logout()"
+                *ngIf="authenticationService.currentUsername != null"
+                routerLink="login"
                 [routerLinkActive]="['class1']"
-                *ngIf="loginService.currentUserName == null"
-                class="navLink text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-lg font-medium"
-                >Tables</a>
+                class="text-gray-300 navLink hover:bg-gray-700 active:bg-indigo-500 hover:text-white px-3 py-2 rounded-md text-lg font-medium"
+                >Logout</a>
 
               </div>
           </div>

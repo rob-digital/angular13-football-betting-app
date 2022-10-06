@@ -1,0 +1,217 @@
+<div [ngClass]="{ dark: isDarkEnable }">
+
+  <app-spinner *ngIf="allGames == null"></app-spinner>
+
+
+  <div *ngIf="allGames != null">
+
+    <div *ngIf="currentPredictionsArray.length > 0">
+
+          <button type="button" class="px-6
+            py-2.5
+            bg-blue-600
+            text-white
+            font-medium
+            text-xs
+            leading-tight
+            uppercase
+            rounded
+            shadow-md
+            hover:bg-blue-700 hover:shadow-lg
+            focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0
+            active:bg-blue-800 active:shadow-lg
+            transition
+            duration-150
+            ease-in-out" data-bs-toggle="modal" data-bs-target="#exampleModal">
+            Your slip
+          </button>
+          <!-- Modal -->
+      <div class="modal fade fixed top-0 left-0 hidden w-full h-full outline-none overflow-x-hidden overflow-y-auto"
+        id="exampleModal" tabindex="-1" aria-labelledby="ModalLabel" aria-hidden="true">
+        <div class="modal-dialog relative w-auto pointer-events-none">
+          <div
+            class="modal-content border-none shadow-lg relative flex flex-col w-full pointer-events-auto bg-white bg-clip-padding rounded-md outline-none text-current">
+            <div
+              class="modal-header flex flex-shrink-0 items-center justify-between p-4 border-b border-gray-200 rounded-t-md">
+
+              <button type="button"
+                class="btn-close box-content w-4 h-4 p-1 text-black border-none rounded-none opacity-50 focus:shadow-none focus:outline-none focus:opacity-100 hover:text-black hover:opacity-75 hover:no-underline"
+                data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body relative p-4">
+              <h5 class="text-xl font-medium leading-normal mb-8 text-gray-800" id="ModalLabel">You're about to submit the following games:</h5>
+
+              <div *ngFor="let venue of currentPredictionsArray; let k = index">
+                <div class="modalContent items-center justify-center flex flex-row w-full text-xl">
+                  <div class="justify-self-end flex">
+                    <div class="px-2" *ngIf="currentPredictionsArray[k] != null">{{ allGames[venue.game_id-1].team1.name }}</div>
+                    <div class="px-2" *ngIf="currentPredictionsArray[k] != null">{{ venue.prediction1 }}</div>
+                  </div>
+                  <div class="text-2xl px-0" *ngIf="currentPredictionsArray[k] != null"> : </div>
+                  <div class="justify-self-start flex">
+                    <div class="px-2" *ngIf="currentPredictionsArray[k] != null">{{ venue.prediction2 }}</div>
+                    <div class="px-2" *ngIf="currentPredictionsArray[k] != null">{{ allGames[venue.game_id-1].team2.name }}</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="modal-footer flex flex-shrink-0 flex-wrap items-center justify-end p-4 border-t border-gray-200 rounded-b-md">
+              <button type="button" class="px-6
+                py-2.5
+                bg-purple-600
+                text-white
+                font-medium
+                text-xs
+                leading-tight
+                uppercase
+                rounded
+                shadow-md
+                hover:bg-purple-700 hover:shadow-lg
+                focus:bg-purple-700 focus:shadow-lg focus:outline-none focus:ring-0
+                active:bg-purple-800 active:shadow-lg
+                transition
+                duration-150
+                ease-in-out" data-bs-dismiss="modal">Cancel</button>
+
+                <button type="button"
+                (click)="onClickSave()"
+                class="px-6
+                py-2.5
+                bg-blue-600
+                text-white
+                font-medium
+                text-xs
+                leading-tight
+                uppercase
+                rounded
+                shadow-md
+                hover:bg-blue-700 hover:shadow-lg
+                focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0
+                active:bg-blue-800 active:shadow-lg
+                transition
+                duration-150
+                ease-in-out
+                ml-1">Save</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+      <div
+      *ngFor="let dailyGames of sortGamesByDatesArray; let j = index"
+        class="min-w-screen  bg-transparent flex items-center justify-center  font-sans overflow-hidden">
+          <div class="currentGamesContainer w-5/6">
+              <div  class="  my-16">
+                <div class="flex space-x-2 justify-start ml-3 mb-3">
+                  <h2 class="text-2xl font-medium leading-tight text-gray-800">
+                    <span class="inline-block py-1.5 px-2.5 leading-none text-center whitespace-nowrap align-baseline font-bold bg-highlight1 dark:bg-amber-300 text-white dark:text-gray-800 rounded">{{ dailyGames[0].matchDate }}</span>
+                  </h2>
+                </div>
+                  <table
+                  class=" rounded-lg w-full table-auto rounded-lg text-black">
+
+                      <tbody
+                      *ngFor="let game of dailyGames; let i = index"
+                      class="relative text-gray-600 flex text-base font-semibold">
+                          <tr
+                            class="grid gridView overflow-hidden grid-cols-7 grid-rows-1 gap-1 border-b relative border-gray-200 bg-blue-50 font-semibold">
+
+                            <td class="py-3 pr-2 text-center justify-end flex items-center">
+                                <div class=" items-center ">
+                                  <span>{{ game.team1.name }}</span>
+                                </div>
+                            </td>
+                              <td class="py-3 px-6 text-center">
+                                  <div class="flex items-center justify-center">
+                                    <span class="mx-2 w-12"><img src="{{ flagsURL }}{{game.team1.countryCode}}{{ extension }}"></span>
+                                  </div>
+                              </td>
+                              <td class="py-3 px-4 text-center justify-end flex items-center">
+                                <div class="flex justify-center">
+                                  <div class="w-16">
+                                    <select
+                                    [(ngModel)]="selectedOptionsTeam1[game.id-1]"
+                                    class="form-select appearance-none
+                                      block
+                                      w-16
+                                      px-3
+                                      py-1.5
+                                      text-base
+                                      font-normal
+                                      text-gray-700
+                                      bg-white bg-clip-padding bg-no-repeat
+                                      border border-solid border-gray-300
+                                      rounded
+                                      transition
+                                      ease-in-out
+                                      m-0
+                                      focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" aria-label="Default select example">
+                                        <option *ngFor="let value of values" [value]="value">{{ value }}</option>
+
+                                    </select>
+                                  </div>
+                                </div>
+                              </td>
+                              <td class="py-3 px-6 text-center justify-center flex items-center">
+                                <span class="text-4xl mb-2">:</span>
+                              </td>
+                              <td class="py-3 px-4 text-center justify-end flex items-center">
+                                <div class="flex justify-center">
+                                  <div class="w-16">
+                                    <select
+                                      [(ngModel)]="selectedOptionsTeam2[game.id-1]"
+                                      class="form-select appearance-none
+                                      block
+                                      w-16
+                                      px-3
+                                      py-1.5
+                                      text-base
+                                      font-normal
+                                      text-gray-700
+                                      bg-white bg-clip-padding bg-no-repeat
+                                      border border-solid border-gray-300
+                                      rounded
+                                      transition
+                                      ease-in-out
+                                      m-0
+                                      focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" aria-label="Default select example">
+                                      <option *ngFor="let value of values" [value]="value">{{ value }}</option>
+                                    </select>
+                                  </div>
+                                </div>
+                              </td>
+                              <td class="py-3 px-6 text-center">
+                                <div class="flex items-center justify-center">
+                                  <span class="mx-2 w-12"><img src="{{ flagsURL }}{{game.team2.countryCode}}{{ extension }}"></span>
+                                </div>
+                              </td>
+                              <td class="py-3 pl-2 text-center flex items-center">
+                                <span>{{ game.team2.name }}</span>
+                              </td>
+
+
+                            </tr>
+
+                            <button type="button"
+                            id="addToSlip"
+                            (click)="onClickAddToSlip($event, i, j)"
+                            class="absolute inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out"
+                            >Add to slip</button>
+                      </tbody>
+                  </table>
+                  <!-- <div class="alert absolute bg-yellow-100 rounded-lg py-5 px-6 mb-3 text-base text-yellow-700 inline-flex items-center w-full alert-dismissible fade show" role="alert">
+                     Please provide date for both teams
+                    <button type="button" class="btn-close box-content w-4 h-4 p-1 ml-auto text-yellow-900 border-none rounded-none opacity-50 focus:shadow-none focus:outline-none focus:opacity-100 hover:text-yellow-900 hover:opacity-75 hover:no-underline" data-bs-dismiss="alert" aria-label="Close"></button>
+                  </div> -->
+
+    <!-- Button trigger modal -->
+
+
+
+              </div>
+          </div>
+      </div>
+    </div>
+  </div>

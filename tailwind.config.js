@@ -9,7 +9,7 @@ module.exports = {
 
     extend: {
       fontFamily: {
-        'sans': ['Raleway-Regular', 'Helvetica', 'Arial', 'sans-serif']
+        'sans': ['Montserrat-Regular', 'Helvetica', 'Arial', 'sans-serif']
       },
       colors: {
         highlight1: '#EA4C3C'

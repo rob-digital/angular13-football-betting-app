@@ -13,9 +13,9 @@ export class JwtInterceptorService implements HttpInterceptor{
   {
     let currentUser = {token: ""}
 
-    if (sessionStorage["currentUser"] != null)
+    if (localStorage["currentUser"] != null)
     {
-      currentUser = JSON.parse(sessionStorage["currentUser"])
+      currentUser = JSON.parse(localStorage["currentUser"])
     }
     request = request.clone({
       setHeaders: {
