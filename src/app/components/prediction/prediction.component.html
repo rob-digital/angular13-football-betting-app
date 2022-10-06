@@ -110,13 +110,18 @@
                   </h2>
                 </div>
                   <table
-                  class=" rounded-lg w-full table-auto rounded-lg text-black">
+                  *ngFor="let game of dailyGames; let i = index"
+                  class=" rounded-lg w-full table-auto rounded-lg text-black mb-4">
+                  <tr class="bg-blue-100">
 
+                    <th>{{game.kickoff.slice(0, -3) }}</th>
+                  </tr>
                       <tbody
-                      *ngFor="let game of dailyGames; let i = index"
+
                       class="relative text-gray-600 flex text-base font-semibold">
+
                           <tr
-                            class="grid gridView overflow-hidden grid-cols-7 grid-rows-1 gap-1 border-b relative border-gray-200 bg-blue-50 font-semibold">
+                            class="grid gridView overflow-hidden grid-cols-7 grid-rows-1 gap-1 border-b relative border-gray-200 bg-blue-100 font-semibold">
 
                             <td class="py-3 pr-2 text-center justify-end flex items-center">
                                 <div class=" items-center ">
@@ -199,7 +204,11 @@
                             (click)="onClickAddToSlip($event, i, j)"
                             class="absolute inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out"
                             >Add to slip</button>
+
                       </tbody>
+                      <tr class="bg-blue-100">
+                        Stadium: {{ game.stadium }}, City: {{ game.city }}
+                      </tr>
                   </table>
                   <!-- <div class="alert absolute bg-yellow-100 rounded-lg py-5 px-6 mb-3 text-base text-yellow-700 inline-flex items-center w-full alert-dismissible fade show" role="alert">
                      Please provide date for both teams

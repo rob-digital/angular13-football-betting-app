@@ -4,6 +4,7 @@ import { PredictionPayload } from '../../classes/prediction-payload';
 import { User } from '../../classes/user-model';
 import { Router } from '@angular/router';
 import { SlicePipe } from '@angular/common';
+import { PredictionService } from '../../services/prediction.service';
 
 @Component({
   selector: 'app-prediction',
@@ -26,8 +27,10 @@ export class PredictionComponent implements OnInit {
   currentPredictionsArray: PredictionPayload[] = [];
   numberOfElementsInEachArray: number[] = [];
 
+  payloadReady: any[] = []
 
-  constructor(private allGamesService: AllGamesService, public router: Router) { }
+
+  constructor(private allGamesService: AllGamesService, private predictionService: PredictionService, public router: Router) { }
 
   ngOnInit(): void {
 
@@ -59,14 +62,13 @@ export class PredictionComponent implements OnInit {
         }
         console.log('this.numberOfElementsInEachArray:', this.numberOfElementsInEachArray)
       },
-      () => {}
+      (error) => {
+        console.log("All games error");
+      }
     )
   }
 
-  onChange(e, i) {
-    console.log("WWW", e + i);
 
-  }
   onClickAddToSlip(event, positionInArrayIndex, arrayIndex) {
 
     let gameId = this.allGames.find(el => el == this.sortGamesByDatesArray[arrayIndex][positionInArrayIndex]).id;
@@ -119,11 +121,17 @@ export class PredictionComponent implements OnInit {
 
     this.currentPredictionsArray[gameId - 1] = singlePredictionPayload
 
-    console.log('this.currentPredictionsArray:', this.currentPredictionsArray)
+    this.payloadReady = this.currentPredictionsArray.filter(el => el);
   }
 
   onClickSave() {
+    this.predictionService.submitPredictions(this.payloadReady).subscribe(
+      (response) => {},
+      (error) => {
+        console.log("Error while submitting predictions", error);
 
+      }
+    );
   }
 
 
