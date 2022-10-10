@@ -1,0 +1,73 @@
+<div [ngClass]="{ dark: isDarkEnable }">
+
+  <app-spinner *ngIf="userGames == null"></app-spinner>
+
+  <div *ngIf="userGames != null">
+
+    <div *ngIf="userGames.length== 0">
+      Nothing to show yet!
+    </div>
+
+      <div *ngIf="userGames.length > 0" class="userData flex flex-col max-w-screen-xl">
+        <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
+          <div class="py-2 inline-block min-w-full sm:px-6 lg:px-8">
+            <div class="overflow-hidden">
+              <table
+
+              class="min-w-full">
+                <thead class="bg-white border-b ">
+                  <tr class="font-bold text-lg">
+                    <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+                      #
+                    </th>
+                    <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-center">
+                      Game
+                    </th>
+                    <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-center">
+                      Your prediction
+                    </th>
+                    <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-center">
+                      Actual Score
+                    </th>
+                    <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-center">
+                      Used booster
+                    </th>
+                    <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-center">
+                      Points
+                    </th>
+                  </tr>
+                </thead>
+                <tbody *ngFor="let userGame of userGames">
+                  <tr class="bg-gray-100 border-b">
+                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{{ userGame.id }}</td>
+                    <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                      <span>{{ userGame.game.team1.name}}</span>
+                      <span> - </span>
+                      <span>{{ userGame.game.team2.name}}</span>
+                    </td>
+                    <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-center">
+                      <span>{{ userGame.prediction1 }}</span>
+                      <span> : </span>
+                      <span>{{ userGame.prediction2 }}</span>
+                    </td>
+                    <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-center">
+
+                    </td>
+                    <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-center" >
+
+                    </td>
+                  <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-center" >
+
+                    </td>
+                  </tr>
+
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+

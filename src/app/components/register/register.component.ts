@@ -12,12 +12,12 @@ export class RegisterComponent implements OnInit {
 
   isDarkEnable = false;
   user: User = new User();
-  errorMessage: string = ""
+  errorMessage: string = "";
 
   constructor(private authenticationService: AuthenticationService, private router: Router) { }
 
   ngOnInit(): void {
-  
+
   }
 
   register() {

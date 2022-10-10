@@ -14,7 +14,7 @@ export class LoginComponent implements OnInit {
   isDarkEnable = false;
   user: User = new User();
   loginError: string = ""
-  inTransit: boolean = false
+  inTransit: boolean = false;
 
 
 

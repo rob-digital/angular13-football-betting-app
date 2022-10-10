@@ -29,7 +29,7 @@ export class LoginService {
   //               console.log('user:', user)
   //               this.currentUserName = user.username
   //               console.log('this.currentUserName:', this.currentUserName)
-  //               localStorage['currentUser'] = JSON.stringify(user)
+  //               sessionStorage['currentUser'] = JSON.stringify(user)
   //             }
   //             return user;
   //           }))
@@ -37,7 +37,7 @@ export class LoginService {
 
   // public Logout()
   // {
-  //   localStorage.removeItem("currentUser")
+  //   sessionStorage.removeItem("currentUser")
   //   this.currentUserName = null
   // }
 }

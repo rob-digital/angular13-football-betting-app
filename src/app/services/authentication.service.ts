@@ -16,12 +16,12 @@ export class AuthenticationService {
   public currentUser: Observable<User>;
   private currentUserSubject: BehaviorSubject<User>;
   currentUsername: any = null;
-  loginInTransit: boolean = false
+  loginInTransit: boolean = false;
 
 
   constructor(private http: HttpClient, public router: Router) {
     let storageUser;
-    const storageUserAsStr = localStorage.getItem('currentUser');
+    const storageUserAsStr = sessionStorage.getItem('currentUser');
     if (storageUserAsStr) {
       storageUser = JSON.parse(storageUserAsStr);
     }
@@ -53,7 +53,7 @@ export class AuthenticationService {
   }
 
   setSessionUser(user: User) {
-    localStorage.setItem('currentUser', JSON.stringify(user));
+    sessionStorage.setItem('currentUser', JSON.stringify(user));
     this.currentUserSubject.next(user);
     this.currentUsername = user.name;
     console.log('this.currentUsername:', this.currentUsername)
@@ -65,7 +65,7 @@ export class AuthenticationService {
 
   logout() {
     this.currentUsername = null
-    localStorage.removeItem('currentUser');
+    sessionStorage.removeItem('currentUser');
     this.currentUserSubject.next(new User);
   }
 

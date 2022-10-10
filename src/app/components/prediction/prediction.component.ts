@@ -16,6 +16,11 @@ export class PredictionComponent implements OnInit {
   isDarkEnable = false;
   flagsURL: string = "https://hatscripts.github.io/circle-flags/flags/";
   extension: string = ".svg";
+  visible = false;
+
+  warningMessage: string = "";
+  errorMessage: string = "";
+  successMessage: string = "";
 
   allGames: any[] = null;
   values: number[] = [0,1,2,3,4,5,6,7,8,9]
@@ -34,13 +39,14 @@ export class PredictionComponent implements OnInit {
 
   ngOnInit(): void {
 
-    if (localStorage.getItem("currentUser") == null) {
+    if (sessionStorage.getItem("currentUser") == null) {
       this.router.navigateByUrl('/login');
       return;
     }
 
     this.allGamesService.getAllGames().subscribe(
       (response) => {
+        console.log('response:', response)
         this.allGames = response
         console.log('this.allGames:', this.allGames)
 
@@ -68,19 +74,50 @@ export class PredictionComponent implements OnInit {
     )
   }
 
+  closeToastWarning(e) {
+    this.visible = !this.visible;
+    this.warningMessage = ""
+  }
+
+  closeToastError(e) {
+    this.errorMessage = ""
+  }
+
+  closeToastSuccess(e) {
+    this.successMessage = ""
+  }
 
   onClickAddToSlip(event, positionInArrayIndex, arrayIndex) {
 
     let gameId = this.allGames.find(el => el == this.sortGamesByDatesArray[arrayIndex][positionInArrayIndex]).id;
     console.log('this.allGames:', this.allGames)
-    console.log('gameId:', gameId)
 
 
     let userId: number = 0;
-    if (localStorage.getItem("currentUser") != null) {
-      userId  = JSON.parse(localStorage.getItem("currentUser")).id;
+    if (sessionStorage.getItem("currentUser") != null) {
+      userId  = JSON.parse(sessionStorage.getItem("currentUser")).id;
     }
 
+    let singlePredictionPayload: PredictionPayload = {
+      user_id: userId,
+      game_id: gameId,
+      prediction1: this.selectedOptionsTeam1[gameId - 1],
+      prediction2: this.selectedOptionsTeam2[gameId - 1],
+    }
+    // if (this.selectedOptionsTeam1[positionInArrayIndex] == null || this.selectedOptionsTeam2[positionInArrayIndex] == null)
+    // {
+    // console.log('gameId:', gameId)
+
+    //   this.warningMessage = "You cannot add empty value to the slip"
+    //   return;
+    // }
+    if (singlePredictionPayload.prediction1 == null || singlePredictionPayload.prediction2 == null)
+    {
+    console.log('gameId:', gameId)
+
+      this.warningMessage = "You cannot add empty value to the slip"
+      return;
+    }
     // let newArr: any = []
     // for (let i of this.sortGamesByDatesArray)
     // {
@@ -110,24 +147,34 @@ export class PredictionComponent implements OnInit {
 
     }
 
-    let singlePredictionPayload: PredictionPayload = {
-      user_id: userId,
-      game_id: gameId,
-      prediction1: this.selectedOptionsTeam1[gameId - 1],
-      prediction2: this.selectedOptionsTeam2[gameId - 1],
-    }
+
     console.log('singlePredictionPayload:', singlePredictionPayload)
 
 
     this.currentPredictionsArray[gameId - 1] = singlePredictionPayload
+    console.log('currentPredictionsArray:', this.currentPredictionsArray)
 
     this.payloadReady = this.currentPredictionsArray.filter(el => el);
+    console.log('payloadReady:', this.payloadReady)
   }
 
   onClickSave() {
     this.predictionService.submitPredictions(this.payloadReady).subscribe(
-      (response) => {},
+      (res) => {
+
+        fetch(location.href).then(response => {
+          console.log(response.status)
+
+          if (response.status == 200)
+            this.successMessage = "Your predictions have been submitted successfully.\n GOOD LUCK!";
+            document.getElementById('predictionModal').setAttribute('data-bs-dismiss', 'modal')
+            // document.querySelector('.modal-backdrop').setAttribute('data-bs-dismiss', 'modal')
+
+        })
+      },
+
       (error) => {
+        this.errorMessage = "Error while submitting predictions.\n It is highly likely that your access token has expired. Please logout and login again. Try submitting your predictions again."
         console.log("Error while submitting predictions", error);
 
       }

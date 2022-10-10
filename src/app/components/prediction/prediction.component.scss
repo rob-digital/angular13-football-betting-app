@@ -20,3 +20,29 @@
   right: -135px;
   top: 19px;
 }
+tbody
+{
+ color: black;
+}
+
+#warning, #error, #success
+{
+    position: fixed;
+    width: 300px;
+    height: 100px;
+    left: calc(50% - 150px);
+    top: 60px;
+    z-index: 9999999;
+}
+#modalButton
+{
+  position: fixed;
+  left: calc(50% + 250px);
+
+  top: 16px;
+  z-index: 9999999;
+}
+
+.modal-content{
+  width: 600px;
+}

@@ -24,12 +24,12 @@ export class AppComponent {
   }
    ngOnInit() {
 
-    if (localStorage.getItem("currentUser") != null) {
-      this.authenticationService.currentUsername  = JSON.parse(localStorage.getItem("currentUser")).name;
+    if (sessionStorage.getItem("currentUser") != null) {
+      this.authenticationService.currentUsername  = JSON.parse(sessionStorage.getItem("currentUser")).name;
     } else {
       this.authenticationService.currentUsername = null
     }
-    // this.name = JSON.parse(localStorage['currentUser']);
+    // this.name = JSON.parse(sessionStorage['currentUser']);
     // console.log('this.name:', this.name)
     // console.log("rts", this.authenticationService.currentUsername);
 

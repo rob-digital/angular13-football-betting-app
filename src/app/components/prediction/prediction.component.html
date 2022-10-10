@@ -5,11 +5,86 @@
 
   <div *ngIf="allGames != null">
 
+
+    <div
+    *ngIf="warning"
+    class="flex flex-col justify-center self-center" id="warning">
+      <div class="bg-yellow-500 shadow-lg mx-auto w-96 max-w-full text-sm pointer-events-auto bg-clip-padding rounded-lg block mb-3" id="static-example" role="alert" aria-live="assertive" aria-atomic="true" data-mdb-autohide="false">
+        <div class="bg-yellow-500 flex justify-between items-center py-2 px-3 bg-clip-padding border-b border-yellow-400 rounded-t-lg">
+          <p class="font-bold text-white flex items-center">
+            <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="exclamation-triangle" class="w-4 h-4 mr-2 fill-current" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512">
+              <path fill="currentColor" d="M569.517 440.013C587.975 472.007 564.806 512 527.94 512H48.054c-36.937 0-59.999-40.055-41.577-71.987L246.423 23.985c18.467-32.009 64.72-31.951 83.154 0l239.94 416.028zM288 354c-25.405 0-46 20.595-46 46s20.595 46 46 46 46-20.595 46-46-20.595-46-46-46zm-43.673-165.346l7.418 136c.347 6.364 5.609 11.346 11.982 11.346h48.546c6.373 0 11.635-4.982 11.982-11.346l7.418-136c.375-6.874-5.098-12.654-11.982-12.654h-63.383c-6.884 0-12.356 5.78-11.981 12.654z"></path>
+            </svg>
+            Warning</p>
+          <div class="flex items-center">
+            <p class="text-white opacity-90 text-xs"></p>
+            <button
+            (click)="closeToastWarning($event)"
+            type="button" class="btn-close btn-close-white box-content w-4 h-4 ml-2 text-white border-none rounded-none opacity-50 focus:shadow-none focus:outline-none focus:opacity-100 hover:text-white hover:opacity-75 hover:no-underline" data-mdb-dismiss="toast" aria-label="Close"></button>
+          </div>
+        </div>
+        <div class="p-3 bg-yellow-500 rounded-b-lg break-words text-white">
+          {{ warning }}
+        </div>
+      </div>
+    </div>
+
+    <div
+    *ngIf="error"
+    class="flex flex-col justify-center self-center" id="error">
+      <div class="bg-red-600 shadow-lg mx-auto w-96 max-w-full text-sm pointer-events-auto bg-clip-padding rounded-lg block mb-3" id="static-example" role="alert" aria-live="assertive" aria-atomic="true" data-mdb-autohide="false">
+        <div class="bg-red-600 flex justify-between items-center py-2 px-3 bg-clip-padding border-b border-yellow-400 rounded-t-lg">
+          <p class="font-bold text-white flex items-center">
+            <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="exclamation-triangle" class="w-4 h-4 mr-2 fill-current" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512">
+              <path fill="currentColor" d="M569.517 440.013C587.975 472.007 564.806 512 527.94 512H48.054c-36.937 0-59.999-40.055-41.577-71.987L246.423 23.985c18.467-32.009 64.72-31.951 83.154 0l239.94 416.028zM288 354c-25.405 0-46 20.595-46 46s20.595 46 46 46 46-20.595 46-46-20.595-46-46-46zm-43.673-165.346l7.418 136c.347 6.364 5.609 11.346 11.982 11.346h48.546c6.373 0 11.635-4.982 11.982-11.346l7.418-136c.375-6.874-5.098-12.654-11.982-12.654h-63.383c-6.884 0-12.356 5.78-11.981 12.654z"></path>
+            </svg>
+            Error</p>
+          <div class="flex items-center">
+            <p class="text-white opacity-90 text-xs"></p>
+            <button
+            (click)="closeToastError($event)"
+            type="button" class="btn-close btn-close-white box-content w-4 h-4 ml-2 text-white border-none rounded-none opacity-50 focus:shadow-none focus:outline-none focus:opacity-100 hover:text-white hover:opacity-75 hover:no-underline" data-mdb-dismiss="toast" aria-label="Close"></button>
+          </div>
+        </div>
+        <div class="p-3 bg-red-600 rounded-b-lg break-words text-white">
+          {{ error }}
+        </div>
+      </div>
+    </div>
+
+    <div
+    *ngIf="success"
+    class="flex flex-col justify-center self-center" id="success">
+      <div class="bg-green-500 shadow-lg mx-auto w-96 max-w-full text-sm pointer-events-auto bg-clip-padding rounded-lg block mb-3" id="static-example" role="alert" aria-live="assertive" aria-atomic="true" data-mdb-autohide="false">
+        <div class="bg-green-500 flex justify-between items-center py-2 px-3 bg-clip-padding border-b border-yellow-400 rounded-t-lg">
+          <p class="font-bold text-white flex items-center">
+            <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="exclamation-triangle" class="w-4 h-4 mr-2 fill-current" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512">
+              <path fill="currentColor" d="M569.517 440.013C587.975 472.007 564.806 512 527.94 512H48.054c-36.937 0-59.999-40.055-41.577-71.987L246.423 23.985c18.467-32.009 64.72-31.951 83.154 0l239.94 416.028zM288 354c-25.405 0-46 20.595-46 46s20.595 46 46 46 46-20.595 46-46-20.595-46-46-46zm-43.673-165.346l7.418 136c.347 6.364 5.609 11.346 11.982 11.346h48.546c6.373 0 11.635-4.982 11.982-11.346l7.418-136c.375-6.874-5.098-12.654-11.982-12.654h-63.383c-6.884 0-12.356 5.78-11.981 12.654z"></path>
+            </svg>
+            Success!</p>
+          <div class="flex items-center">
+            <p class="text-white opacity-90 text-xs"></p>
+            <button
+            (click)="closeToastSuccess($event)"
+            type="button" class="btn-close btn-close-white box-content w-4 h-4 ml-2 text-white border-none rounded-none opacity-50 focus:shadow-none focus:outline-none focus:opacity-100 hover:text-white hover:opacity-75 hover:no-underline" data-mdb-dismiss="toast" aria-label="Close"></button>
+          </div>
+        </div>
+        <div class="p-3 bg-green-500 rounded-b-lg break-words text-white">
+          {{ success }}
+        </div>
+      </div>
+    </div>
+
+
     <div *ngIf="currentPredictionsArray.length > 0">
 
-          <button type="button" class="px-6
+
+
+          <div id="modalButton" class="inline-flex relative w-fit">
+            <div class="absolute inline-block top-0 right-0 bottom-auto left-auto translate-x-2/4 -translate-y-1/2 rotate-0 skew-x-0 skew-y-0 scale-x-100 scale-y-100 py-1 px-2.5 text-sm leading-none text-center whitespace-nowrap align-baseline font-bold bg-yellow-300 text-black rounded-full z-10">{{ payloadReady.length }}</div>
+            <button type="button" class="px-6
             py-2.5
-            bg-blue-600
+            bg-highlight1
             text-white
             font-medium
             text-xs
@@ -22,12 +97,14 @@
             active:bg-blue-800 active:shadow-lg
             transition
             duration-150
-            ease-in-out" data-bs-toggle="modal" data-bs-target="#exampleModal">
+            ease-in-out" data-bs-toggle="modal" data-bs-target="#predictionModal">
             Your slip
           </button>
+          </div>
           <!-- Modal -->
-      <div class="modal fade fixed top-0 left-0 hidden w-full h-full outline-none overflow-x-hidden overflow-y-auto"
-        id="exampleModal" tabindex="-1" aria-labelledby="ModalLabel" aria-hidden="true">
+      <div
+      class="modal fade fixed top-30 left-0 hidden w-full h-full outline-none overflow-x-hidden overflow-y-auto"
+      id="predictionModal" tabindex="-1" aria-labelledby="ModalLabel" aria-hidden="true">
         <div class="modal-dialog relative w-auto pointer-events-none">
           <div
             class="modal-content border-none shadow-lg relative flex flex-col w-full pointer-events-auto bg-white bg-clip-padding rounded-md outline-none text-current">
@@ -41,17 +118,24 @@
             <div class="modal-body relative p-4">
               <h5 class="text-xl font-medium leading-normal mb-8 text-gray-800" id="ModalLabel">You're about to submit the following games:</h5>
 
+
+
               <div *ngFor="let venue of currentPredictionsArray; let k = index">
-                <div class="modalContent items-center justify-center flex flex-row w-full text-xl">
-                  <div class="justify-self-end flex">
-                    <div class="px-2" *ngIf="currentPredictionsArray[k] != null">{{ allGames[venue.game_id-1].team1.name }}</div>
-                    <div class="px-2" *ngIf="currentPredictionsArray[k] != null">{{ venue.prediction1 }}</div>
-                  </div>
-                  <div class="text-2xl px-0" *ngIf="currentPredictionsArray[k] != null"> : </div>
-                  <div class="justify-self-start flex">
-                    <div class="px-2" *ngIf="currentPredictionsArray[k] != null">{{ venue.prediction2 }}</div>
-                    <div class="px-2" *ngIf="currentPredictionsArray[k] != null">{{ allGames[venue.game_id-1].team2.name }}</div>
-                  </div>
+                <div class="flex flex-wrap justify-center space-x-2">
+                  <span
+                    class="px-4 py-2 rounded-full text-gray-500 bg-gray-200 font-semibold text-sm flex align-center w-max cursor-pointer active:bg-gray-300 transition duration-300 ease">
+                    <div class="modalContent items-center justify-center flex flex-row w-full text-xl">
+                      <div class="justify-self-end flex">
+                        <div class="px-2" *ngIf="currentPredictionsArray[k] != null">{{ allGames[venue.game_id-1].team1.name }}</div>
+                        <div class="px-2" *ngIf="currentPredictionsArray[k] != null">{{ venue.prediction1 }}</div>
+                      </div>
+                      <div class="text-2xl px-0" *ngIf="currentPredictionsArray[k] != null"> : </div>
+                      <div class="justify-self-start flex">
+                        <div class="px-2" *ngIf="currentPredictionsArray[k] != null">{{ venue.prediction2 }}</div>
+                        <div class="px-2" *ngIf="currentPredictionsArray[k] != null">{{ allGames[venue.game_id-1].team2.name }}</div>
+                      </div>
+                    </div>
+                  </span>
                 </div>
               </div>
             </div>
@@ -111,8 +195,8 @@
                 </div>
                   <table
                   *ngFor="let game of dailyGames; let i = index"
-                  class=" rounded-lg w-full table-auto rounded-lg text-black mb-4">
-                  <tr class="bg-blue-100">
+                  class=" rounded-lg w-full table-auto rounded-lg text-black mb-8">
+                  <tr class="bg-sky-300">
 
                     <th>{{game.kickoff.slice(0, -3) }}</th>
                   </tr>
@@ -137,6 +221,7 @@
                                 <div class="flex justify-center">
                                   <div class="w-16">
                                     <select
+                                    id="select1"
                                     [(ngModel)]="selectedOptionsTeam1[game.id-1]"
                                     class="form-select appearance-none
                                       block
@@ -166,6 +251,7 @@
                                 <div class="flex justify-center">
                                   <div class="w-16">
                                     <select
+                                    id="select2"
                                       [(ngModel)]="selectedOptionsTeam2[game.id-1]"
                                       class="form-select appearance-none
                                       block
@@ -206,10 +292,97 @@
                             >Add to slip</button>
 
                       </tbody>
-                      <tr class="bg-blue-100">
-                        Stadium: {{ game.stadium }}, City: {{ game.city }}
-                      </tr>
+
                   </table>
+
+                  <div *ngFor="let game of dailyGames; let i = index" class="flex justify-center">
+                    <ul class="bg-white rounded-lg border border-gray-200 text-gray-900">
+                      <li class="px-6 py-2 border-b border-gray-200 w-full rounded-t-lg">{{game.kickoff.slice(0, -3) }}</li>
+                      <li class="px-6 py-2 border-b border-gray-200 w-full">
+                        <tr
+                            class="grid gridView overflow-hidden grid-cols-7 grid-rows-1 gap-1 border-b relative border-gray-200 bg-blue-100 font-semibold">
+
+                            <td class="py-3 pr-2 text-center justify-end flex items-center">
+                                <div class=" items-center ">
+                                  <span>{{ game.team1.name }}</span>
+                                </div>
+                            </td>
+                              <td class="py-3 px-6 text-center">
+                                  <div class="flex items-center justify-center">
+                                    <span class="mx-2 w-12"><img src="{{ flagsURL }}{{game.team1.countryCode}}{{ extension }}"></span>
+                                  </div>
+                              </td>
+                              <td class="py-3 px-4 text-center justify-end flex items-center">
+                                <div class="flex justify-center">
+                                  <div class="w-16">
+                                    <select
+                                    id="select1"
+                                    [(ngModel)]="selectedOptionsTeam1[game.id-1]"
+                                    class="form-select appearance-none
+                                      block
+                                      w-16
+                                      px-3
+                                      py-1.5
+                                      text-base
+                                      font-normal
+                                      text-gray-700
+                                      bg-white bg-clip-padding bg-no-repeat
+                                      border border-solid border-gray-300
+                                      rounded
+                                      transition
+                                      ease-in-out
+                                      m-0
+                                      focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" aria-label="Default select example">
+                                        <option *ngFor="let value of values" [value]="value">{{ value }}</option>
+
+                                    </select>
+                                  </div>
+                                </div>
+                              </td>
+                              <td class="py-3 px-6 text-center justify-center flex items-center">
+                                <span class="text-4xl mb-2">:</span>
+                              </td>
+                              <td class="py-3 px-4 text-center justify-end flex items-center">
+                                <div class="flex justify-center">
+                                  <div class="w-16">
+                                    <select
+                                    id="select2"
+                                      [(ngModel)]="selectedOptionsTeam2[game.id-1]"
+                                      class="form-select appearance-none
+                                      block
+                                      w-16
+                                      px-3
+                                      py-1.5
+                                      text-base
+                                      font-normal
+                                      text-gray-700
+                                      bg-white bg-clip-padding bg-no-repeat
+                                      border border-solid border-gray-300
+                                      rounded
+                                      transition
+                                      ease-in-out
+                                      m-0
+                                      focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" aria-label="Default select example">
+                                      <option *ngFor="let value of values" [value]="value">{{ value }}</option>
+                                    </select>
+                                  </div>
+                                </div>
+                              </td>
+                              <td class="py-3 px-6 text-center">
+                                <div class="flex items-center justify-center">
+                                  <span class="mx-2 w-12"><img src="{{ flagsURL }}{{game.team2.countryCode}}{{ extension }}"></span>
+                                </div>
+                              </td>
+                              <td class="py-3 pl-2 text-center flex items-center">
+                                <span>{{ game.team2.name }}</span>
+                              </td>
+
+
+                            </tr>
+                      </li>
+
+                    </ul>
+                  </div>
                   <!-- <div class="alert absolute bg-yellow-100 rounded-lg py-5 px-6 mb-3 text-base text-yellow-700 inline-flex items-center w-full alert-dismissible fade show" role="alert">
                      Please provide date for both teams
                     <button type="button" class="btn-close box-content w-4 h-4 p-1 ml-auto text-yellow-900 border-none rounded-none opacity-50 focus:shadow-none focus:outline-none focus:opacity-100 hover:text-yellow-900 hover:opacity-75 hover:no-underline" data-bs-dismiss="alert" aria-label="Close"></button>

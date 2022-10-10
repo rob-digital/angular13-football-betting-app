@@ -9,6 +9,9 @@ import { AuthGuard } from './guards/auth.guard';
 import { Role } from './classes/role-enum';
 import { AdminComponent } from './components/admin/admin.component';
 import { UserDetailsComponent } from './components/user-details/user-details.component';
+import { UserPredictionsComponent } from './components/user-predictions/user-predictions.component';
+import { AdminAllGamesComponent } from './components/admin-all-games/admin-all-games.component';
+import { AdminGamesPlayedComponent } from './components/admin-games-played/admin-games-played.component';
 
 const routes: Routes = [
   { path: "", redirectTo: "login", pathMatch: "full"},
@@ -24,25 +27,39 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     data: { roles: [Role.ADMIN, Role.USER]}
 
-},
+  },
+  { path: "tables",
+      component: TablesComponent,
+      canActivate: [AuthGuard],
+      data: { roles: [Role.ADMIN, Role.USER]}
 
-{ path: "tables",
-    component: TablesComponent,
+  },
+  { path: "admindata/allusers",
+    component: AdminComponent,
     canActivate: [AuthGuard],
-    data: { roles: [Role.ADMIN, Role.USER]}
+    data: {roles: [Role.ADMIN]}
+  },
+  { path: "admindata/noscore",
+    component: AdminAllGamesComponent,
+    canActivate: [AuthGuard],
+    data: {roles: [Role.ADMIN]}
+  },
+  { path: "admindata/allgamesplayed",
+    component: AdminGamesPlayedComponent,
+    canActivate: [AuthGuard],
+    data: {roles: [Role.ADMIN]}
+  },
 
-},
-{ path: "admin",
-  component: AdminComponent,
-  canActivate: [AuthGuard],
-  data: {roles: [Role.ADMIN]}
-},
-
-{ path: 'detail/:id',
-component: UserDetailsComponent,
-canActivate: [AuthGuard],
-data: {roles: [Role.ADMIN]}
-}, //detail/1
+  { path: 'details/:id',
+    component: UserDetailsComponent,
+    canActivate: [AuthGuard],
+    data: {roles: [Role.ADMIN]}
+  }, //detail/1
+  { path: 'predictions/user/:id',
+    component: UserPredictionsComponent,
+    canActivate: [AuthGuard],
+    data: {roles: [Role.ADMIN, Role.USER]}
+  }, //detail/1
   // { path: "admin", component: TablesComponent},
 ];
 

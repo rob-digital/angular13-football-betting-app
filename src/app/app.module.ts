@@ -13,6 +13,10 @@ import { PredictionComponent } from './components/prediction/prediction.componen
 import { RegisterComponent } from './components/register/register.component';
 import { AdminComponent } from './components/admin/admin.component';
 import { UserDetailsComponent } from './components/user-details/user-details.component';
+import { UserPredictionsComponent } from './components/user-predictions/user-predictions.component';
+import { AdminGamesPlayedComponent } from './components/admin-games-played/admin-games-played.component';
+import { AdminAllGamesComponent } from './components/admin-all-games/admin-all-games.component';
+import { SuccessMessageComponent } from './components/success-message/success-message.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -23,7 +27,11 @@ import { UserDetailsComponent } from './components/user-details/user-details.com
     PredictionComponent,
     RegisterComponent,
     AdminComponent,
-    UserDetailsComponent
+    UserDetailsComponent,
+    UserPredictionsComponent,
+    AdminGamesPlayedComponent,
+    AdminAllGamesComponent,
+    SuccessMessageComponent
   ],
   imports: [
     BrowserModule,

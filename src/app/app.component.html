@@ -1,6 +1,6 @@
 <!-- This example requires Tailwind CSS v2.0+ -->
 <div [ngClass]="{ dark: isDarkEnable }">
-  <nav class="bg-gray-900 text-lg">
+  <nav class="bg-gray-900 text-lg shadow-lg">
     <div class="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
       <div class="relative flex h-16 items-center justify-between">
 
@@ -42,6 +42,13 @@
                 *ngIf="authenticationService.currentUsername != null"
                 class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-lg font-medium"
                 >Leader Board</a>
+
+              <a
+                [routerLink]="['/predictions/user/{{:id}}']"
+                [routerLinkActive]="['class1']"
+                *ngIf="authenticationService.currentUsername != null"
+                class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-lg font-medium"
+                >My Stuff</a>
 
                 <a
                 (click)="authenticationService.logout()"

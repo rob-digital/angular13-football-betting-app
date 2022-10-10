@@ -3,6 +3,7 @@
 // }
 .mainContent {
   min-height: 100vh;
+  padding-top: 100px;
 
 }
 // .svg2 {
@@ -15,5 +16,12 @@
 
 .class1{
   background-color: #2563EB
+}
+
+nav
+{
+  position: fixed;
+  width: 100%;
+  z-index: 9999999;
 }
 
