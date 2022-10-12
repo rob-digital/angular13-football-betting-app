@@ -39,7 +39,12 @@ export class AdminAllGamesComponent implements OnInit {
     this.successMessage = ""
   }
 
+  goToGamesWithScores() {
+    this.router.navigateByUrl('/admindata/allgamesplayed');
+  }
+
   onInsertClick(event, i) {
+  console.log('i:', i)
 
     let gameId = this.allGames.find(el => el == this.allGames[i]).id;
 
@@ -47,8 +52,8 @@ export class AdminAllGamesComponent implements OnInit {
   console.log('selectedOptionsTeam2:', this.selectedOptionsTeam2)
 
   let payload: ScorePayload = {
-    goalsTeam1: this.selectedOptionsTeam1[0],
-    goalsTeam2: this.selectedOptionsTeam2[0],
+    goalsTeam1: this.selectedOptionsTeam1[gameId - 1],
+    goalsTeam2: this.selectedOptionsTeam2[gameId - 1],
   }
 
   this.adminService.submitGameScore(gameId, payload).subscribe(

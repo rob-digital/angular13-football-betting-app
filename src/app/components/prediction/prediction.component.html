@@ -4,13 +4,13 @@
 
 
   <div *ngIf="allGames != null">
-
+    <div id="info">{{ thanks }}</div>
 
     <div
-    *ngIf="warning"
+    *ngIf="warningMessage"
     class="flex flex-col justify-center self-center" id="warning">
-      <div class="bg-yellow-500 shadow-lg mx-auto w-96 max-w-full text-sm pointer-events-auto bg-clip-padding rounded-lg block mb-3" id="static-example" role="alert" aria-live="assertive" aria-atomic="true" data-mdb-autohide="false">
-        <div class="bg-yellow-500 flex justify-between items-center py-2 px-3 bg-clip-padding border-b border-yellow-400 rounded-t-lg">
+      <div class="bg-orange-500 shadow-lg mx-auto w-96 max-w-full text-sm pointer-events-auto bg-clip-padding rounded-lg block mb-3" id="static-example" role="alert" aria-live="assertive" aria-atomic="true" data-mdb-autohide="false">
+        <div class="bg-orange-500 flex justify-between items-center py-2 px-3 bg-clip-padding border-b border-yellow-400 rounded-t-lg">
           <p class="font-bold text-white flex items-center">
             <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="exclamation-triangle" class="w-4 h-4 mr-2 fill-current" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512">
               <path fill="currentColor" d="M569.517 440.013C587.975 472.007 564.806 512 527.94 512H48.054c-36.937 0-59.999-40.055-41.577-71.987L246.423 23.985c18.467-32.009 64.72-31.951 83.154 0l239.94 416.028zM288 354c-25.405 0-46 20.595-46 46s20.595 46 46 46 46-20.595 46-46-20.595-46-46-46zm-43.673-165.346l7.418 136c.347 6.364 5.609 11.346 11.982 11.346h48.546c6.373 0 11.635-4.982 11.982-11.346l7.418-136c.375-6.874-5.098-12.654-11.982-12.654h-63.383c-6.884 0-12.356 5.78-11.981 12.654z"></path>
@@ -23,14 +23,14 @@
             type="button" class="btn-close btn-close-white box-content w-4 h-4 ml-2 text-white border-none rounded-none opacity-50 focus:shadow-none focus:outline-none focus:opacity-100 hover:text-white hover:opacity-75 hover:no-underline" data-mdb-dismiss="toast" aria-label="Close"></button>
           </div>
         </div>
-        <div class="p-3 bg-yellow-500 rounded-b-lg break-words text-white">
-          {{ warning }}
+        <div class="p-3 bg-orange-500 rounded-b-lg break-words text-white">
+          {{ warningMessage }}
         </div>
       </div>
     </div>
 
     <div
-    *ngIf="error"
+    *ngIf="errorMessage"
     class="flex flex-col justify-center self-center" id="error">
       <div class="bg-red-600 shadow-lg mx-auto w-96 max-w-full text-sm pointer-events-auto bg-clip-padding rounded-lg block mb-3" id="static-example" role="alert" aria-live="assertive" aria-atomic="true" data-mdb-autohide="false">
         <div class="bg-red-600 flex justify-between items-center py-2 px-3 bg-clip-padding border-b border-yellow-400 rounded-t-lg">
@@ -47,13 +47,13 @@
           </div>
         </div>
         <div class="p-3 bg-red-600 rounded-b-lg break-words text-white">
-          {{ error }}
+          {{ errorMessage }}
         </div>
       </div>
     </div>
 
     <div
-    *ngIf="success"
+    *ngIf="successMessage"
     class="flex flex-col justify-center self-center" id="success">
       <div class="bg-green-500 shadow-lg mx-auto w-96 max-w-full text-sm pointer-events-auto bg-clip-padding rounded-lg block mb-3" id="static-example" role="alert" aria-live="assertive" aria-atomic="true" data-mdb-autohide="false">
         <div class="bg-green-500 flex justify-between items-center py-2 px-3 bg-clip-padding border-b border-yellow-400 rounded-t-lg">
@@ -70,7 +70,7 @@
           </div>
         </div>
         <div class="p-3 bg-green-500 rounded-b-lg break-words text-white">
-          {{ success }}
+          {{ successMessage }}
         </div>
       </div>
     </div>
@@ -82,7 +82,9 @@
 
           <div id="modalButton" class="inline-flex relative w-fit">
             <div class="absolute inline-block top-0 right-0 bottom-auto left-auto translate-x-2/4 -translate-y-1/2 rotate-0 skew-x-0 skew-y-0 scale-x-100 scale-y-100 py-1 px-2.5 text-sm leading-none text-center whitespace-nowrap align-baseline font-bold bg-yellow-300 text-black rounded-full z-10">{{ payloadReady.length }}</div>
-            <button type="button" class="px-6
+            <button
+            (click)=prepareItemsInSlipArray()
+            type="button" class="px-6
             py-2.5
             bg-highlight1
             text-white
@@ -92,9 +94,9 @@
             uppercase
             rounded
             shadow-md
-            hover:bg-blue-700 hover:shadow-lg
-            focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0
-            active:bg-blue-800 active:shadow-lg
+            hover:bg-highlight1 hover:shadow-lg
+            focus:bg-highlight1 focus:shadow-lg focus:outline-none focus:ring-0
+            active:bg-highlight1 active:shadow-lg
             transition
             duration-150
             ease-in-out" data-bs-toggle="modal" data-bs-target="#predictionModal">
@@ -116,27 +118,55 @@
                 data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body relative p-4">
-              <h5 class="text-xl font-medium leading-normal mb-8 text-gray-800" id="ModalLabel">You're about to submit the following games:</h5>
+              <h5 class="text-xl font-medium leading-normal mb-8 text-gray-800" id="ModalLabel">{{ slipText }}</h5>
 
 
 
-              <div *ngFor="let venue of currentPredictionsArray; let k = index">
-                <div class="flex flex-wrap justify-center space-x-2">
-                  <span
-                    class="px-4 py-2 rounded-full text-gray-500 bg-gray-200 font-semibold text-sm flex align-center w-max cursor-pointer active:bg-gray-300 transition duration-300 ease">
-                    <div class="modalContent items-center justify-center flex flex-row w-full text-xl">
-                      <div class="justify-self-end flex">
-                        <div class="px-2" *ngIf="currentPredictionsArray[k] != null">{{ allGames[venue.game_id-1].team1.name }}</div>
-                        <div class="px-2" *ngIf="currentPredictionsArray[k] != null">{{ venue.prediction1 }}</div>
-                      </div>
-                      <div class="text-2xl px-0" *ngIf="currentPredictionsArray[k] != null"> : </div>
+              <div *ngFor="let venue of copyOfCurrentPredictionArrayWithGames; let k = index">
+                    <div class="modalContent{{k}} modalContent items-center justify-center flex flex-row w-full text-xl">
                       <div class="justify-self-start flex">
-                        <div class="px-2" *ngIf="currentPredictionsArray[k] != null">{{ venue.prediction2 }}</div>
-                        <div class="px-2" *ngIf="currentPredictionsArray[k] != null">{{ allGames[venue.game_id-1].team2.name }}</div>
+                        <div class="px-2" *ngIf="copyOfCurrentPredictionArrayWithGames[k] != null">{{ venue.team1.name }}</div>
+                        <div *ngIf="copyOfCurrentPredictionArrayWithGames[k] != null"> - </div>
+                        <div class="px-2" *ngIf="copyOfCurrentPredictionArrayWithGames[k] != null">{{ venue.team2.name }}</div>
+                      </div>
+                      <div class="justify-self-start flex">
+                        <div class="px-2" *ngIf="copyOfCurrentPredictionArrayWithGames[k] != null">{{ currentPredictionsArray[k].prediction1 }}</div>
+                        <div class="text-2xl px-0" *ngIf="copyOfCurrentPredictionArrayWithGames[k] != null"> : </div>
+                        <div class="px-2" *ngIf="copyOfCurrentPredictionArrayWithGames[k] != null">{{ currentPredictionsArray[k].prediction2 }}</div>
+                      </div>
+                      <div class="flex justify-end">
+                        <div *ngIf="copyOfCurrentPredictionArrayWithGames[k] != null">
+                          <div class="relative" (mouseover)="tooltip1_status[k] = 3" (mouseout)="this.tooltip1_status[k] = 0">
+                            <div (click)="deleteFromSlip($event, k)" class="mr-2 cursor-pointer">
+                              <svg
+                              class="bin"
+                              (click)="deleteFromSlip(el, k)"
+                              xmlns="http://www.w3.org/2000/svg"
+                              title="Use Booster"
+                              viewBox="0 0 448 512"><path d="M135.2 17.7L128 32H32C14.3 32 0 46.3 0 64S14.3 96 32 96H416c17.7 0 32-14.3 32-32s-14.3-32-32-32H320l-7.2-14.3C307.4 6.8 296.3 0 284.2 0H163.8c-12.1 0-23.2 6.8-28.6 17.7zM416 128H32L53.2 467c1.6 25.3 22.6 45 47.9 45H346.9c25.3 0 46.3-19.7 47.9-45L416 128z"/></svg>
+                            </div>
+                            <div *ngIf="tooltip1_status[k] == 3" role="tooltip" class="z-20 -mt-20 w-64 absolute transition duration-150 ease-in-out left-0 ml-8 shadow-lg bg-gray-800 p-4 rounded">
+                                <p class="text-sm font-bold text-white pb-1">Delete from slip</p>
+                            </div>
+                        </div>
+                        </div>
+                        <div class="w-2" *ngIf="copyOfCurrentPredictionArrayWithGames[k] != null"></div>
+                          <div *ngIf="copyOfCurrentPredictionArrayWithGames[k] != null">
+                              <div class="relative" (mouseover)="tooltip2_status[k] = 3" (mouseout)="tooltip2_status[k] = 0">
+                                <div class="mr-2 cursor-pointer starContainer">
+                                  <svg
+                                  (click)="calculateBooster(el, k)"
+                                  class="star"
+                                  title="Use Booster"
+                                  xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><path d="M316.9 18C311.6 7 300.4 0 288.1 0s-23.4 7-28.8 18L195 150.3 51.4 171.5c-12 1.8-22 10.2-25.7 21.7s-.7 24.2 7.9 32.7L137.8 329 113.2 474.7c-2 12 3 24.2 12.9 31.3s23 8 33.8 2.3l128.3-68.5 128.3 68.5c10.8 5.7 23.9 4.9 33.8-2.3s14.9-19.3 12.9-31.3L438.5 329 542.7 225.9c8.6-8.5 11.7-21.2 7.9-32.7s-13.7-19.9-25.7-21.7L381.2 150.3 316.9 18z"/></svg>
+                                </div>
+                                <div *ngIf="tooltip2_status[k] == 3" role="tooltip" class="z-20 -mt-20 w-64 absolute transition duration-150 ease-in-out left-0 ml-8 shadow-lg bg-gray-800 p-4 rounded">
+                                    <p class="text-sm font-bold text-white pb-1">Use Booster</p>
+                                </div>
+                            </div>
+                        </div>
                       </div>
                     </div>
-                  </span>
-                </div>
               </div>
             </div>
             <div
@@ -159,6 +189,7 @@
                 ease-in-out" data-bs-dismiss="modal">Cancel</button>
 
                 <button type="button"
+                id="saveModal"
                 (click)="onClickSave()"
                 class="px-6
                 py-2.5
@@ -190,12 +221,12 @@
               <div  class="  my-16">
                 <div class="flex space-x-2 justify-start ml-3 mb-3">
                   <h2 class="text-2xl font-medium leading-tight text-gray-800">
-                    <span class="inline-block py-1.5 px-2.5 leading-none text-center whitespace-nowrap align-baseline font-bold bg-highlight1 dark:bg-amber-300 text-white dark:text-gray-800 rounded">{{ dailyGames[0].matchDate }}</span>
+                    <span  class="inline-block py-1.5 px-2.5 leading-none text-center whitespace-nowrap align-baseline font-bold bg-highlight1 dark:bg-amber-300 text-white dark:text-gray-800 rounded">{{ dailyGames[0].matchDate }}</span>
                   </h2>
                 </div>
                   <table
                   *ngFor="let game of dailyGames; let i = index"
-                  class=" rounded-lg w-full table-auto rounded-lg text-black mb-8">
+                  class="gameTable rounded-lg w-full table-auto rounded-lg text-black mb-8">
                   <tr class="bg-sky-300">
 
                     <th>{{game.kickoff.slice(0, -3) }}</th>
@@ -221,9 +252,8 @@
                                 <div class="flex justify-center">
                                   <div class="w-16">
                                     <select
-                                    id="select1"
                                     [(ngModel)]="selectedOptionsTeam1[game.id-1]"
-                                    class="form-select appearance-none
+                                    class="select1 form-select appearance-none
                                       block
                                       w-16
                                       px-3
@@ -251,9 +281,8 @@
                                 <div class="flex justify-center">
                                   <div class="w-16">
                                     <select
-                                    id="select2"
                                       [(ngModel)]="selectedOptionsTeam2[game.id-1]"
-                                      class="form-select appearance-none
+                                      class="select2 form-select appearance-none
                                       block
                                       w-16
                                       px-3
@@ -295,7 +324,7 @@
 
                   </table>
 
-                  <div *ngFor="let game of dailyGames; let i = index" class="flex justify-center">
+                  <!-- <div *ngFor="let game of dailyGames; let i = index" class="flex justify-center">
                     <ul class="bg-white rounded-lg border border-gray-200 text-gray-900">
                       <li class="px-6 py-2 border-b border-gray-200 w-full rounded-t-lg">{{game.kickoff.slice(0, -3) }}</li>
                       <li class="px-6 py-2 border-b border-gray-200 w-full">
@@ -382,7 +411,7 @@
                       </li>
 
                     </ul>
-                  </div>
+                  </div> -->
                   <!-- <div class="alert absolute bg-yellow-100 rounded-lg py-5 px-6 mb-3 text-base text-yellow-700 inline-flex items-center w-full alert-dismissible fade show" role="alert">
                      Please provide date for both teams
                     <button type="button" class="btn-close box-content w-4 h-4 p-1 ml-auto text-yellow-900 border-none rounded-none opacity-50 focus:shadow-none focus:outline-none focus:opacity-100 hover:text-yellow-900 hover:opacity-75 hover:no-underline" data-bs-dismiss="alert" aria-label="Close"></button>

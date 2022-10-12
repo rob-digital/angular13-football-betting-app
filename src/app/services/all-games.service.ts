@@ -13,8 +13,8 @@ export class AllGamesService {
 
   constructor(private httpClient: HttpClient ) { }
 
-  getAllGames(): Observable<any[]> {
+  getAllGames(userId: number): Observable<any[]> {
 
-    return this.httpClient.get<any[]>(this.urlPrefix + "/api/v1/games/all", { responseType: "json" });
+    return this.httpClient.get<any[]>(this.urlPrefix + "/api/v1/games/all/user/" + userId, { responseType: "json" });
   }
 }

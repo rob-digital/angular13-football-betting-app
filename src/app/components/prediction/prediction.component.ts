@@ -30,9 +30,21 @@ export class PredictionComponent implements OnInit {
   gamesByDatesArray: any[] = [];
   sortGamesByDatesArray: any[] = null;
   currentPredictionsArray: PredictionPayload[] = [];
+  copyOfCurrentPredictionArrayWithGames: any[] = []
   numberOfElementsInEachArray: number[] = [];
+  itemsInSlip: number = 0;
 
-  payloadReady: any[] = []
+  payloadReady: any[] = [];
+  payloadCount: number = 0;
+  tooltip1_status: number[] = [];
+  tooltip2_status: number[] = [];
+
+  actualGameIndex: number = 0;
+  slipText: string = "";
+  thanks: string = "";
+
+  booster: number = 0;
+  userId: number = 0;
 
 
   constructor(private allGamesService: AllGamesService, private predictionService: PredictionService, public router: Router) { }
@@ -44,32 +56,52 @@ export class PredictionComponent implements OnInit {
       return;
     }
 
-    this.allGamesService.getAllGames().subscribe(
+    this.userId = JSON.parse(sessionStorage.getItem("currentUser")).id;
+    this.booster = JSON.parse(sessionStorage.getItem("currentUser")).activeBoosters;
+    console.log('this.booster00000:', this.booster)
+
+
+
+    setInterval(() => {
+      const JWT = JSON.parse(sessionStorage.getItem("currentUser")).accessToken
+      const jwtPayload = JSON.parse(window.atob(JWT.split('.')[1]))
+      console.log(jwtPayload.exp);
+    }, 1000)
+
+    this.allGamesService.getAllGames(this.userId).subscribe(
       (response) => {
         console.log('response:', response)
         this.allGames = response
+        this.allGames.sort((a, b) => a.id - b.id)
         console.log('this.allGames:', this.allGames)
 
         const uniqueDates = new Set(this.allGames.map(el => el.matchDate))
         let allDatesArray = [...uniqueDates]
 
         this.allDatesArray = allDatesArray
+        // this.allDatesArray.reverse()
         console.log('allDatesArray:', allDatesArray)
+
 
         let sortGamesByDatesArray = [];
         for(let i=0;i<allDatesArray.length;i++){
           sortGamesByDatesArray.push(this.allGames.filter((el, j) =>el.matchDate == allDatesArray[i]));
         }
         this.sortGamesByDatesArray = sortGamesByDatesArray;
-        console.log('this.sortGamesByDatesArray:', this.sortGamesByDatesArray)
+        this.sortGamesByDatesArray.forEach(el => el.sort((a, b) => a.id - b.id));
 
         for (let i = 0; i < this.sortGamesByDatesArray.length; i++) {
           this.numberOfElementsInEachArray.push(this.sortGamesByDatesArray[i].length)
         }
-        console.log('this.numberOfElementsInEachArray:', this.numberOfElementsInEachArray)
+
+        console.log('this.sortGamesByDatesArray:', this.sortGamesByDatesArray)
+
+        this.allGames.length == 0
+        ? this.thanks = "Nothing to submit, thanks for taking part :)"
+        : null
       },
       (error) => {
-        console.log("All games error");
+        console.log("All games error",  error);
       }
     )
   }
@@ -87,10 +119,139 @@ export class PredictionComponent implements OnInit {
     this.successMessage = ""
   }
 
+
+
+  deleteFromSlip(el, i) {
+    console.log('i111:', i)
+    console.log('el:', el)
+    console.log('currentPredictionsArray:', this.currentPredictionsArray)
+    console.log(' this.booster111:',  this.booster)
+    console.log('this.payloadReady:', this.payloadReady)
+    // this.currentPredictionsArray.splice(i, 1);
+    // console.log('this.currentPredictionsArrayddddddddddd:', this.currentPredictionsArray)
+
+    let elementInPayloadReadyArray = this.payloadReady.find(el => el == this.currentPredictionsArray[i])
+    console.log('elementInPayloadReadyArray:', elementInPayloadReadyArray)
+
+   let indexInPayloadReadyArray = this.payloadReady.indexOf(elementInPayloadReadyArray)
+   console.log('indexInPayloadReadyArray:', indexInPayloadReadyArray)
+
+   console.log('this.copyOfCurrentPredictionArrayWithGames_DEL:', this.copyOfCurrentPredictionArrayWithGames)
+
+   if (this.booster < 3 && this.booster >= 0) {
+    // this.payloadReady.forEach(z => {
+    //   if (z.game_id == i + 1 && z.usedBooster == 2) {
+    //     z.usedBooster = 1
+    //     this.booster += 1
+    //   }
+    // })
+    if (this.payloadReady[indexInPayloadReadyArray].usedBooster == 2) {
+      this.payloadReady[indexInPayloadReadyArray].usedBooster = 1
+      this.booster += 1
+    }
+  }
+
+
+
+
+  console.log('this.booster2222:', this.booster)
+
+   if (indexInPayloadReadyArray > -1) this.payloadReady.splice(indexInPayloadReadyArray, 1)
+
+  //  console.log('elementInPayloadReadyArray:', elementInPayloadReadyArray)
+  //  console.log('indexInPayloadReadyArray:', indexInPayloadReadyArray)
+   console.log('payloadReady:', this.payloadReady)
+
+
+
+   let currentItemInSlip = document.querySelectorAll(".modalContent"+i)
+   currentItemInSlip.forEach(el => el.remove())
+
+
+
+   if (this.payloadReady.length == 0) {
+     this.slipText = "Your slip is empty"
+     document.getElementById('saveModal').style.display = 'none';
+   } else {
+     document.getElementById('saveModal').style.display = 'block';
+     this.slipText = "You're about to submit the following games: ";
+   }
+
+   let elementInCurrentPredictionArray = this.currentPredictionsArray.find(el => el == this.currentPredictionsArray[i])
+   let positionInCurrentPredictionArray = this.currentPredictionsArray.indexOf(elementInCurrentPredictionArray)
+  //  console.log('positionInCurrentPredictionArray:', positionInCurrentPredictionArray)
+
+   this.selectedOptionsTeam1.splice(positionInCurrentPredictionArray, 1)
+  //  console.log('this.selectedOptionsTeam1:', this.selectedOptionsTeam1)
+   this.selectedOptionsTeam2.splice(positionInCurrentPredictionArray, 1)
+  //  console.log('this.selectedOptionsTeam2:', this.selectedOptionsTeam2)
+
+   if (this.payloadReady.length == 0) {
+    this.currentPredictionsArray.filter(el => el)
+    this.selectedOptionsTeam1.filter(el => el)
+    this.selectedOptionsTeam2.filter(el => el)
+
+
+    }
+
+    this.copyOfCurrentPredictionArrayWithGames.splice(positionInCurrentPredictionArray, 1)
+    this.currentPredictionsArray.splice(positionInCurrentPredictionArray, 1)
+    this.copyOfCurrentPredictionArrayWithGames
+    // console.log('this.copyOfCurrentPredictionArrayWithGames:', this.copyOfCurrentPredictionArrayWithGames)
+
+  }
+
+  prepareItemsInSlipArray() {
+    if (this.payloadReady.length > 0) {
+      document.getElementById('saveModal').style.display = 'block';
+    } else {
+      document.getElementById('saveModal').style.display = 'none';
+    }
+
+    this.tooltip1_status.forEach(el => el = 0)
+    this.tooltip2_status.forEach(el => el = 0)
+  }
+
+  calculateBooster(el, i) {
+
+    let elementInPayloadReadyArray = this.payloadReady.find(el => el == this.currentPredictionsArray[i])
+    console.log('elementInPayloadReadyArray:', elementInPayloadReadyArray)
+
+   let indexInPayloadReadyArray = this.payloadReady.indexOf(elementInPayloadReadyArray)
+    console.log('indexInPayloadReadyArray:', indexInPayloadReadyArray)
+    console.log('iQQQ:', i)
+    if (this.booster > 0 && this.booster <= 3) {
+      // this.payloadReady.forEach(z => {
+      //   if (z.game_id == i + 1 && z.usedBooster == 1) {
+      //     z.usedBooster = 2
+      //     this.booster -= 1
+      //   }
+      // })
+      if (this.payloadReady[indexInPayloadReadyArray].usedBooster == 1) {
+        this.payloadReady[indexInPayloadReadyArray].usedBooster = 2
+        this.booster -= 1
+      }
+    }
+
+
+      document.getElementsByClassName('starContainer')[indexInPayloadReadyArray].classList.add('hide')
+
+      if (this.booster == 0)
+        document.querySelectorAll('.starContainer').forEach(el => el. classList.add('hide'))
+
+      console.log('this.booster:', this.booster)
+      if (this.booster == 0) console.log("ZERO");
+
+    console.log('payloadReady111:', this.payloadReady)
+
+
+  }
+
   onClickAddToSlip(event, positionInArrayIndex, arrayIndex) {
 
     let gameId = this.allGames.find(el => el == this.sortGamesByDatesArray[arrayIndex][positionInArrayIndex]).id;
     console.log('this.allGames:', this.allGames)
+
 
 
     let userId: number = 0;
@@ -103,6 +264,7 @@ export class PredictionComponent implements OnInit {
       game_id: gameId,
       prediction1: this.selectedOptionsTeam1[gameId - 1],
       prediction2: this.selectedOptionsTeam2[gameId - 1],
+      usedBooster: 1
     }
     // if (this.selectedOptionsTeam1[positionInArrayIndex] == null || this.selectedOptionsTeam2[positionInArrayIndex] == null)
     // {
@@ -118,26 +280,29 @@ export class PredictionComponent implements OnInit {
       this.warningMessage = "You cannot add empty value to the slip"
       return;
     }
-    // let newArr: any = []
-    // for (let i of this.sortGamesByDatesArray)
-    // {
-    //   newArr.push(i)
-    // }
-    // let arraysUntilSelected = newArr.reverse().slice(this.sortGamesByDatesArray.length - arrayIndex - 1)
-    // // console.log('arraysUntilSelected:', arraysUntilSelected)
+    let newArr: any = []
+    for (let i of this.sortGamesByDatesArray)
+    {
+      newArr.push(i)
+    }
+    let arraysUntilSelected = newArr.reverse().slice(this.sortGamesByDatesArray.length - arrayIndex - 1)
+    // console.log('arraysUntilSelected:', arraysUntilSelected)
 
 
-    // let newArrOfIndexes = []
-    // // console.log('arraysUntilSelected:', arraysUntilSelected.reduce((a, b) => a.length + b.length))
-    // for (let i = 0; i < arraysUntilSelected.length; i++) {
-    //   newArrOfIndexes.push(arraysUntilSelected[i].length)
-    // }
+    let newArrOfIndexes = []
+    // console.log('arraysUntilSelected:', arraysUntilSelected.reduce((a, b) => a.length + b.length))
+    for (let i = 0; i < arraysUntilSelected.length; i++) {
+      newArrOfIndexes.push(arraysUntilSelected[i].length)
+    }
 
-    // let noOfElementsUntilSelectedArray = newArrOfIndexes.reduce((a, b) => a + b)
-    // // console.log('noOfElementsUntilSelectedArray:', noOfElementsUntilSelectedArray)
+    let noOfElementsUntilSelectedArray = newArrOfIndexes.reduce((a, b) => a + b)
+    // console.log('noOfElementsUntilSelectedArray:', noOfElementsUntilSelectedArray)
 
-    // let actualGameIndex = (noOfElementsUntilSelectedArray + positionInArrayIndex - this.sortGamesByDatesArray[arrayIndex].length + 1)  // works with first array
-    // console.log('actualGameIndex:', actualGameIndex)
+    let actualGameIndex = (noOfElementsUntilSelectedArray + positionInArrayIndex - this.sortGamesByDatesArray[arrayIndex].length + 1)  // works with first array
+    this.actualGameIndex = actualGameIndex - 1
+    console.log('actualGameIndex:', this.actualGameIndex)
+    this.copyOfCurrentPredictionArrayWithGames[gameId - 1] = this.allGames[this.actualGameIndex]
+    console.log('this.copyOfCurrentPredictionArrayWithGames:', this.copyOfCurrentPredictionArrayWithGames)
 
 
     console.log('selectedOptionsTeam1:', this.selectedOptionsTeam1)
@@ -155,7 +320,15 @@ export class PredictionComponent implements OnInit {
     console.log('currentPredictionsArray:', this.currentPredictionsArray)
 
     this.payloadReady = this.currentPredictionsArray.filter(el => el);
+    this.itemsInSlip = this.payloadReady.length;
     console.log('payloadReady:', this.payloadReady)
+
+    this.payloadReady.length == 0
+    ? this.slipText = "Your slip is empty"
+    : this.slipText = "You're about to submit the following games: ";
+
+    this.payloadCount = this.payloadReady.length
+
   }
 
   onClickSave() {
@@ -167,9 +340,19 @@ export class PredictionComponent implements OnInit {
 
           if (response.status == 200)
             this.successMessage = "Your predictions have been submitted successfully.\n GOOD LUCK!";
-            document.getElementById('predictionModal').setAttribute('data-bs-dismiss', 'modal')
+            // document.getElementById('predictionModal').setAttribute('data-bs-dismiss', 'modal')
             // document.querySelector('.modal-backdrop').setAttribute('data-bs-dismiss', 'modal')
+            this.copyOfCurrentPredictionArrayWithGames = []
+            this.payloadReady = []
+            document.getElementsByClassName('gameTable')[this.actualGameIndex].remove();
 
+            this.payloadReady.length == 0
+              ? this.slipText = "Your slip is empty"
+              : this.slipText = "You're about to submit the following games: ";
+
+              this.allGames.length == 0
+              ? this.thanks = "Nothing to submit, thanks for taking part :)"
+              : null
         })
       },
 

@@ -7,7 +7,7 @@
 
     <div
       *ngIf="successMessage"
-      class="flex flex-col justify-center self-center" id="success">
+      class="successPopup flex flex-col justify-center self-center" id="success">
         <div class="bg-green-500 shadow-lg mx-auto w-96 max-w-full text-sm pointer-events-auto bg-clip-padding rounded-lg block mb-3" id="static-example" role="alert" aria-live="assertive" aria-atomic="true" data-mdb-autohide="false">
           <div class="bg-green-500 flex justify-between items-center py-2 px-3 bg-clip-padding border-b border-yellow-400 rounded-t-lg">
             <p class="font-bold text-white flex items-center">
@@ -32,13 +32,18 @@
       Nothing to show yet!
     </div>
 
+    <button type="button"
+    (click)="goToGamesWithScores()"
+    class="inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out"
+    >Go to games with scores</button>
+
     <div *ngIf="allGames.length > 0" class="allGamesData flex flex-col max-w-screen-xl">
       <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
         <div class="py-2 inline-block min-w-full sm:px-6 lg:px-8">
           <div class="overflow-hidden">
             <table
 
-            class="min-w-full" id="gamesNoScore">
+            class="min-w-full">
               <thead class="bg-white border-b ">
                 <tr class="font-bold text-lg">
                   <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
@@ -82,7 +87,7 @@
 
                     <select
                     id="select1"
-                    [(ngModel)]="selectedOptionsTeam1[0]"
+                    [(ngModel)]="selectedOptionsTeam1[game.id-1]"
                     class="form-select appearance-none
                       block
                       w-16
@@ -104,7 +109,7 @@
 
                     <select
                     id="select1"
-                    [(ngModel)]="selectedOptionsTeam2[0]"
+                    [(ngModel)]="selectedOptionsTeam2[game.id-1]"
                     class="form-select appearance-none
                       block
                       w-16

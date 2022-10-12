@@ -1,6 +1,7 @@
 .modalContent {
   display: grid;
-  grid-template-columns: [first] 20% auto [last] 20%;
+  // grid-template-columns: [first] 50% auto [last] 100px;
+  grid-template-columns: [first] 280px 100px [last] 57px;
 
 }
 
@@ -45,4 +46,18 @@ tbody
 
 .modal-content{
   width: 600px;
+}
+
+svg{
+  height: 25px;
+  :hover {
+    cursor: pointer;
+  }
+}
+.star {
+  fill: #EA4C3C;
+}
+
+.hide {
+  display: none;
 }

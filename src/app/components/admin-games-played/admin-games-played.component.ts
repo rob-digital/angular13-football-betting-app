@@ -28,6 +28,10 @@ export class AdminGamesPlayedComponent implements OnInit {
     )
   }
 
+  goToGamesWithoutScores() {
+    this.router.navigateByUrl('/admindata/noscore');
+  }
+
   onCalculateClick() {
     console.log(this.gamesPlayed);
 

@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { LoginComponent } from './login/login.component';
 import { TablesComponent } from './tables/tables.component';
-import { FutureGamesComponent } from './components/future-games/future-games.component';
 import { PredictionComponent } from './components/prediction/prediction.component';
 import { RegisterComponent } from './components/register/register.component';
 import { AuthGuard } from './guards/auth.guard';
@@ -21,12 +20,6 @@ const routes: Routes = [
     component: PredictionComponent,
     canActivate: [AuthGuard],
     data: { roles: [Role.ADMIN, Role.USER]}
-  },
-  { path: "future-games",
-    component: FutureGamesComponent,
-    canActivate: [AuthGuard],
-    data: { roles: [Role.ADMIN, Role.USER]}
-
   },
   { path: "tables",
       component: TablesComponent,
