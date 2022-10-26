@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AdminService } from '../../services/admin.service';
 import { Router } from '@angular/router';
 import { ScorePayload } from '../../classes/score-payload';
+import { GameStatusEnum } from '../../classes/game-status-enum';
 
 @Component({
   selector: 'app-admin-all-games',
@@ -40,7 +41,11 @@ export class AdminAllGamesComponent implements OnInit {
   }
 
   goToGamesWithScores() {
-    this.router.navigateByUrl('/admindata/allgamesplayed');
+    this.router.navigateByUrl('/admin/allgamesplayed');
+  }
+
+  goToAllUsers() {
+    this.router.navigateByUrl('/admin/allusers');
   }
 
   onInsertClick(event, i) {
@@ -54,6 +59,7 @@ export class AdminAllGamesComponent implements OnInit {
   let payload: ScorePayload = {
     goalsTeam1: this.selectedOptionsTeam1[gameId - 1],
     goalsTeam2: this.selectedOptionsTeam2[gameId - 1],
+    status: GameStatusEnum.CALCULATED
   }
 
   this.adminService.submitGameScore(gameId, payload).subscribe(
@@ -61,16 +67,12 @@ export class AdminAllGamesComponent implements OnInit {
       fetch(location.href).then(response => {
         console.log(response.status)
 
-        if (response.status == 200)
-        this.selectedOptionsTeam1 = []
-        this.selectedOptionsTeam2 = []
+        if (response.status == 200) {
+          this.selectedOptionsTeam1 = []
+          this.selectedOptionsTeam2 = []
+          this.successMessage = "Score submitted successfully!";
+        }
 
-        // document.getElementById('gamesNoScore').hasChildNodes('tr').to
-
-        // document.getElementsByTagName('tr')
-
-        this.successMessage = "Score submitted successfully!";
-          // document.querySelector('.modal-backdrop').setAttribute('data-bs-dismiss', 'modal')
       })
     },
     (error) => {

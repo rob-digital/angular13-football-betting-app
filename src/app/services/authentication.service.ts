@@ -17,6 +17,7 @@ export class AuthenticationService {
   private currentUserSubject: BehaviorSubject<User>;
   currentUsername: any = null;
   loginInTransit: boolean = false;
+  userRole: string = "USER";
 
 
   constructor(private http: HttpClient, public router: Router) {
@@ -38,7 +39,6 @@ export class AuthenticationService {
     return this.http.post<User>(API_URL + '/sign-in', user).pipe(
       map(response => {
         if (response) {
-          console.log('response:', response)
           this.router.navigate(['/predict']);
           //set session-user
           this.setSessionUser(response);
@@ -56,7 +56,7 @@ export class AuthenticationService {
     sessionStorage.setItem('currentUser', JSON.stringify(user));
     this.currentUserSubject.next(user);
     this.currentUsername = user.name;
-    console.log('this.currentUsername:', this.currentUsername)
+    this.userRole = user.role;
   }
 
   register(user: User): Observable<any> {
@@ -64,15 +64,17 @@ export class AuthenticationService {
   }
 
   logout() {
-    this.currentUsername = null
-    sessionStorage.removeItem('currentUser');
-    this.currentUserSubject.next(new User);
+    this.removeUserFromSession();
   }
 
   refreshToken(): Observable<any> {
     return this.http.post(API_URL + '/refresh-token?token=' + this.currentUserValue?.refreshToken, {});
   }
 
+  removeUserFromSession() {
+    this.currentUsername = null
+    sessionStorage.removeItem('currentUser');
+    this.currentUserSubject.next(new User);
+  }
+
 }
-
-

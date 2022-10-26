@@ -1,7 +1,4 @@
 .modalContent {
-  display: grid;
-  // grid-template-columns: [first] 50% auto [last] 100px;
-  grid-template-columns: [first] 280px 100px [last] 57px;
 
 }
 
@@ -15,26 +12,28 @@
   // grid-template-columns: calc(5 / 12 * 100%) calc(4 / 12 * 100%) calc(3 / 12 * 100%);
   grid-template-columns: 20fr 15fr 10fr 2fr 10fr 15fr 20fr;
   // grid-template-columns: [first] 20% auto [last] 20%;
+  border-bottom: none;
 }
 
 #addToSlip {
-  right: -135px;
-  top: 19px;
+  right: -142px;
+  top: 47px;
 }
 tbody
 {
  color: black;
 }
 
-#warning, #error, #success
+.dateIndicator
 {
-    position: fixed;
-    width: 300px;
-    height: 100px;
-    left: calc(50% - 150px);
-    top: 60px;
-    z-index: 9999999;
+  margin-bottom: -30px;
 }
+
+.success
+{
+  top: 254px;
+}
+
 #modalButton
 {
   position: fixed;
@@ -45,7 +44,17 @@ tbody
 }
 
 .modal-content{
-  width: 600px;
+    width: 600px;
+    .modalContent {
+      display: grid;
+      // grid-template-columns: [first] 50% auto [last] 100px;
+      grid-template-columns: [first] 280px 100px [last] 110px;
+
+      background-color: #9eb0c8;
+      margin-bottom: 5px;
+      border-radius: 6px;
+      padding: 3px;
+    }
 }
 
 svg{
@@ -55,9 +64,30 @@ svg{
   }
 }
 .star {
-  fill: #EA4C3C;
+  fill: #ffd700;
 }
 
 .hide {
   display: none;
+}
+#saveModalButton {
+    width: 80px;
+    height: 40px;
+}
+#predictionModal
+{
+  max-height: 90vh;
+}
+.mainContainer
+{
+  margin-top: 100px;
+}
+.allGamesContainer
+{
+  margin-top: -130px;
+}
+
+.singlePredictionWrappaer
+{
+  margin-bottom: -33px;
 }

@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { PredictionService } from '../../services/prediction.service';
 import { Router } from '@angular/router';
 import { User } from '../../classes/user-model';
+import { AdminService } from '../../services/admin.service';
+import { AllGamesService } from '../../services/all-games.service';
+import { AuthenticationService } from '../../services/authentication.service';
 
 @Component({
   selector: 'app-user-predictions',
@@ -14,15 +17,24 @@ export class UserPredictionsComponent implements OnInit {
   // user: User = new User();
   userId: number = 0;
   userGames: any[] = null;
+  playedGames: any[] = null;
   userName: string = "";
+  sortedGames: any[] = [];
+  boostersLeft: number = null;
+  points: number = null;
 
-  constructor(private predictionService: PredictionService, public router: Router) { }
+  constructor(private allGamesService: AllGamesService,
+    private predictionService: PredictionService,
+    private adminService: AdminService,
+    public authenticationService: AuthenticationService,
+    public router: Router) { }
 
   ngOnInit(): void {
 
-    sessionStorage.getItem("currentUser") != null
-      ? this.userId = JSON.parse(sessionStorage.getItem("currentUser")).id
-      : null;
+    if (sessionStorage.getItem("currentUser") != null) {
+      this.userId = JSON.parse(sessionStorage.getItem("currentUser")).id;
+      this.boostersLeft = JSON.parse(sessionStorage.getItem("currentUser")).activeBoosters;
+    }
 
 
     this.predictionService.fetchUserPredictions(this.userId).subscribe(
@@ -30,9 +42,9 @@ export class UserPredictionsComponent implements OnInit {
         this.userGames = response;
         console.log('this.userGames:', this.userGames)
 
-        // this.userGames != null
-        //   ? this.userName = this.userGames[0].user.username
-        //   : null;
+        this.points = this.userGames.map(el => el.points).reduce((a, b) => {
+          return a + b
+        }, 0)
 
       },
       (error) => {

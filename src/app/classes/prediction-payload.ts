@@ -4,7 +4,7 @@ export class PredictionPayload {
   user_id: number;
   prediction1 : number;
   prediction2 : number;
-  usedBooster: number;
+  boostScoreXTimes: number;
 
   constructor()
   {
@@ -12,7 +12,7 @@ export class PredictionPayload {
       this.user_id = 0;
       this.prediction1 = 0
       this.prediction2 = 0;
-      this.usedBooster = 1;
+      this.boostScoreXTimes = 1;
   }
 
 }

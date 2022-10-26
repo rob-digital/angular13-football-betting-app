@@ -2,3 +2,12 @@
 {
   margin: 0 auto;
 }
+
+table td, th
+{
+  font-weight: 600;
+}
+table thead:first-of-type
+{
+  background-color: aquamarine;
+}

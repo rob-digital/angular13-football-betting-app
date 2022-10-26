@@ -21,11 +21,5 @@ export abstract class RequestBaseService {
         "Content-Type": "application/json; charset=UTF-8"
       }
     );
-
-    // request = request.clone({
-    //   setHeaders: {
-    //     Authorization: "Bearer " + currentUser.token
-    //   }
-    // })
   }
 }

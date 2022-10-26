@@ -13,8 +13,9 @@ export class AllGamesService {
 
   constructor(private httpClient: HttpClient ) { }
 
-  getAllGames(userId: number): Observable<any[]> {
+  fetchNotPredictedGames(userId: number): Observable<any[]> {
 
     return this.httpClient.get<any[]>(this.urlPrefix + "/api/v1/games/all/user/" + userId, { responseType: "json" });
   }
+
 }

@@ -10,5 +10,6 @@ export class User {
   role: Role = Role.USER
   refreshToken: string = ""
   username: string = ""
+  points: number = 0
   activeBoosters: number = 3
 }

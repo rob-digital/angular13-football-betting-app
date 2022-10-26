@@ -1,0 +1,105 @@
+<div [ngClass]="{ dark: isDarkEnable }">
+
+  <app-spinner *ngIf="allGroupsArray == null"></app-spinner>
+
+
+  <div *ngIf="allGroupsArray != null" class="min-w-screen  bg-transparent flex items-center justify-center  font-sans overflow-hidden">
+      <div class="myContainer w-5/6">
+          <div *ngFor="let group of allGroupsArray; let i = index" class="shadow-md rounded-lg my-16">
+
+
+              <div class="flex justify-center mt-12 relative">
+                <div class="verticalAdjustment text-highlight1 dark:text-yellow-300">{{ group[2].groupName }}</div>
+
+                <ul class="bg-white rounded-lg border border-gray-200 text-gray-90 w-full">
+                  <li class="border-b border-gray-200 w-full rounded-t-lg px-3
+                  bg-gradient-to-r from-sky-600 to-blue-800 text-white dark:bg-gradient-to-r dark:from-blue-300 dark:to-sky-300  dark:text-gray-800
+                  ">
+                    <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
+                      <div class="py-2 inline-block min-w-full sm:px-6">
+                        <div class="overflow-hidden tableWrapper">
+                          <table
+
+                          class="min-w-full">
+                            <thead class="border-b  text-white  dark:text-black">
+                              <tr class="relative text-lg bg-gradient-to-r from-sky-600 to-blue-800 text-white dark:bg-gradient-to-r dark:from-blue-300 dark:to-sky-300  dark:text-gray-800">
+                                <th></th>
+                                <th scope="col" class="px-6 py-4 left text-yellow-300">
+                                  <!-- <div class="groupInfo flex space-x-1 justify-start absolute">
+                                    <h2 class="text-2xl font-medium leading-tight text-gray-800">
+                                      <span  class="inline-block py-1.5 px-2.5 leading-none text-center whitespace-nowrap align-baseline font-bold bg-highlight1 dark:bg-amber-300 text-white dark:text-gray-800 rounded">{{ group[2].groupName }}</span>
+                                    </h2>
+                                  </div> -->
+                                </th>
+                                <th scope="col" class="px-6 py-2 text-center">
+
+                                </th>
+                                <th scope="col" class="px-6 py-2 text-center">
+                                  Win
+                                </th>
+                                <th scope="col" class="px-6 py-2 text-center">
+                                  Draw
+                                </th>
+                                <th scope="col" class="px-6 py-2 text-center">
+                                 Loss
+                                </th>
+                                <th scope="col" class="px-6 py-2 text-center">
+                                 Goals
+                                </th>
+                                <th scope="col" class="px-6 py-2 text-center">
+                                 Points
+                                </th>
+                              </tr>
+                            </thead>
+                            <tbody *ngFor="let team of group; let j = index">
+                              <tr class="{{ j % 2 == 0 ? 'bg-white' : 'bg-gray-100' }}
+                              border-b text-black font-bold">
+                                <td></td>
+
+                                <td class="text-md px-6 py-4 whitespace-nowrap text-center">
+                                  <span>{{ team.positionInTable }}</span>
+                                </td>
+                                <td class="py-3 px-6 text-left">
+                                  <div class="flex items-center">
+                                      <div class="mx-2 w-12"><img src="{{ flagsURL }}{{team.countryCode}}{{ extension }}"></div>
+                                      <span>{{ team.name }}</span>
+                                  </div>
+                                </td>
+                                <td class="text-md px-6 py-4 whitespace-nowrap text-center">
+                                  <span>{{ team.win }}</span>
+                                </td>
+                                <td class="text-md px-6 py-4 whitespace-nowrap text-center">
+                                  <span>{{ team.draw }}</span>
+                                </td>
+                                <td class="text-md px-6 py-4 whitespace-nowrap text-center">
+                                  <span>{{ team.loss }}</span>
+                                </td>
+                                <td class="text-md px-6 py-4 whitespace-nowrap text-center">
+                                  <span>{{ team.goalsScored - team.goalsLost }}</span>
+                                </td>
+                                <td class="py-3 px-6 text-center">
+                                  <div class="flex item-center justify-center">
+                                    <span class="bg-highlight1 text-white py-1 px-3 rounded-full text-lg">{{ team.points }}</span>
+                                  </div>
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+

@@ -5,8 +5,9 @@ import {AuthenticationService} from "./authentication.service";
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
 import { ScorePayload } from '../classes/score-payload';
+import { GameIdPayload } from '../classes/game-id-payload';
 
-const API_URL = environment.BASE_URL + "/api/v1/admindata";
+const API_URL = environment.BASE_URL + "/api/v1/admin";
 const API_GAMES_URL = environment.BASE_URL + "/api/v1/games";
 
 @Injectable({
@@ -33,5 +34,9 @@ export class AdminService extends RequestBaseService{
 
   submitGameScore(id: number, payload: ScorePayload): Observable<ScorePayload> {
     return this.http.put<ScorePayload>(API_GAMES_URL + "/insert/" + id, payload, {headers: this.getHeaders});
+  }
+
+  calculatePointsForGame(gameId: number, payload: GameIdPayload):Observable<GameIdPayload> {
+    return this.http.put<GameIdPayload>(API_URL + "/calculate/game/" + gameId, payload, {headers: this.getHeaders});
   }
 }

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { TablesComponent } from './tables/tables.component';
+import { TablesComponent } from './components/tables/tables.component';
 import { LoginService } from './services/login.service';
 import { AuthenticationService } from './services/authentication.service';
 import { Router } from '@angular/router';
@@ -10,13 +10,9 @@ import { Router } from '@angular/router';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
+
   title: string = 'angular13-football-betting-app';
   isDarkEnable = false;
-  // selected: boolean = false;
-  // isActivePage: boolean = false;
-  // navLinks: []
-  // name: string = ""
-
   activeUser: boolean = false;
 
   constructor(public authenticationService: AuthenticationService, public router: Router){
@@ -26,20 +22,30 @@ export class AppComponent {
 
     if (sessionStorage.getItem("currentUser") != null) {
       this.authenticationService.currentUsername  = JSON.parse(sessionStorage.getItem("currentUser")).name;
+      this.authenticationService.userRole = JSON.parse(sessionStorage.getItem("currentUser")).role;
     } else {
       this.authenticationService.currentUsername = null
     }
-    // this.name = JSON.parse(sessionStorage['currentUser']);
-    // console.log('this.name:', this.name)
-    // console.log("rts", this.authenticationService.currentUsername);
 
+    setInterval(() => {
+
+      let convertDateTime = function(num) { return ('00'+num).slice(-2) };
+      let currentTime;
+      currentTime = new Date();
+      currentTime = new Date();
+      currentTime = convertDateTime(currentTime.getUTCHours() + 1)      + ':' +
+      convertDateTime(currentTime.getUTCMinutes())    + ':' +
+      convertDateTime(currentTime.getUTCSeconds());
+
+       let logoutTime = "23:58:00"
+
+       if (currentTime == logoutTime) {
+        // this.authenticationService.logout()
+        this.authenticationService.removeUserFromSession()
+        this.router.navigate(['/login']);
+      }
+
+    }, 1000)
    }
-
-  //  onMenuLinkClick(event){
-  //   // console.log(event.target.nodeName.addClass('activeLink'));
-  //   event.target.style.background = "grey";
-  //   // event.target.css('background' , "red");
-
-  //  }
 }
 

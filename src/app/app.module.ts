@@ -3,8 +3,8 @@ import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { TablesComponent } from './tables/tables.component';
-import { LoginComponent } from './login/login.component';
+import { TablesComponent } from './components/tables/tables.component';
+import { LoginComponent } from './components/login/login.component';
 import { FormsModule } from '@angular/forms';
 import { JwtInterceptorService } from './services/jwt-interceptor.service';
 import { SpinnerComponent } from './components/spinner/spinner.component';
@@ -16,7 +16,10 @@ import { UserPredictionsComponent } from './components/user-predictions/user-pre
 import { AdminGamesPlayedComponent } from './components/admin-games-played/admin-games-played.component';
 import { AdminAllGamesComponent } from './components/admin-all-games/admin-all-games.component';
 import { SuccessMessageComponent } from './components/success-message/success-message.component';
-import { authInterceptorProviders } from './interceptors/auth.interceptor';
+import { LeaderboardComponent } from './components/leaderboard/leaderboard.component';
+import { NotFoundComponent } from './components/not-found/not-found.component';
+import { CreditsComponent } from './components/credits/credits.component';
+// import { authInterceptorProviders } from './interceptors/auth.interceptor';
 @NgModule({
   declarations: [
     AppComponent,
@@ -30,7 +33,10 @@ import { authInterceptorProviders } from './interceptors/auth.interceptor';
     UserPredictionsComponent,
     AdminGamesPlayedComponent,
     AdminAllGamesComponent,
-    SuccessMessageComponent
+    SuccessMessageComponent,
+    LeaderboardComponent,
+    NotFoundComponent,
+    CreditsComponent
   ],
   imports: [
     BrowserModule,
@@ -44,7 +50,7 @@ import { authInterceptorProviders } from './interceptors/auth.interceptor';
     //   useClass: JwtInterceptorService,
     //   multi: true
     // }
-    authInterceptorProviders
+    // authInterceptorProviders
   ],
   bootstrap: [AppComponent]
 })

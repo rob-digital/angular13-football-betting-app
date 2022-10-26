@@ -3,71 +3,94 @@
   <app-spinner *ngIf="userGames == null"></app-spinner>
 
   <div *ngIf="userGames != null">
+    <h3 class="text-xl ml-10 mb-12 dark:text-yellow-200" *ngIf="userGames != null && userGames == 0">Hi, {{ authenticationService.currentUsername }}</h3>
 
-    <div *ngIf="userGames.length== 0">
+    <div *ngIf="userGames.length == 0" class="ml-10 text-md dark:text-yellow-200">
       Nothing to show yet!
     </div>
 
       <div *ngIf="userGames.length > 0" class="userData flex flex-col max-w-screen-xl">
-        <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
-          <div class="py-2 inline-block min-w-full sm:px-6 lg:px-8">
-            <div class="overflow-hidden">
-              <table
 
-              class="min-w-full">
-                <thead class="bg-white border-b ">
-                  <tr class="font-bold text-lg">
-                    <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
-                      #
-                    </th>
-                    <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-center">
-                      Game
-                    </th>
-                    <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-center">
-                      Your prediction
-                    </th>
-                    <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-center">
-                      Actual Score
-                    </th>
-                    <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-center">
-                      Used booster
-                    </th>
-                    <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-center">
-                      Points
-                    </th>
-                  </tr>
-                </thead>
-                <tbody *ngFor="let userGame of userGames">
-                  <tr class="bg-gray-100 border-b">
-                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{{ userGame.id }}</td>
-                    <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                      <span>{{ userGame.game.team1.name}}</span>
-                      <span> - </span>
-                      <span>{{ userGame.game.team2.name}}</span>
-                    </td>
-                    <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-center">
-                      <span>{{ userGame.prediction1 }}</span>
-                      <span> : </span>
-                      <span>{{ userGame.prediction2 }}</span>
-                    </td>
-                    <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-center">
+        <h3 class="text-xl ml-3 mb-12 dark:text-yellow-300" *ngIf="userGames != null">Hi, {{ userGames[0].user.username }}</h3>
+        <h3 class="text-lg ml-3 dark:text-yellow-300" *ngIf="boostersLeft != null">Boosters left: {{ boostersLeft }}</h3>
+        <h3 class="text-lg ml-3 dark:text-yellow-300" *ngIf="points != null">Total points: {{ points }}</h3>
 
-                    </td>
-                    <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-center" >
+        <div class="flex justify-center mt-12">
+          <ul class="bg-white rounded-lg border border-gray-200 text-gray-90 w-full">
+            <li class="border-b border-gray-200 w-full rounded-t-lg px-3
+            bg-gradient-to-r from-sky-800 to-blue-800 text-white dark:bg-gradient-to-r dark:from-cyan-300 dark:to-sky-300  dark:text-gray-800">
+              <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
+                <div class="py-2 inline-block min-w-full sm:px-6">
+                  <div class="overflow-hidden tableWrapper">
+                    <table
 
-                    </td>
-                  <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-center" >
+                    class="min-w-full text-black">
+                      <thead class="border-b  text-white  dark:text-black">
+                        <tr class="text-lg
+                        bg-gradient-to-r from-sky-800 to-blue-800 text-white dark:bg-gradient-to-r dark:from-cyan-300 dark:to-sky-300  dark:text-gray-800">
 
-                    </td>
-                  </tr>
-
-                </tbody>
-              </table>
-            </div>
-          </div>
+                          <th scope="col" class="px-6 py-4 text-center">
+                            Game
+                          </th>
+                          <th scope="col" class="px-6 py-4 text-center">
+                            Your predictions
+                          </th>
+                          <th scope="col" class="px-6 py-4 text-center">
+                            Actual Score
+                          </th>
+                          <th scope="col" class="px-6 py-4 text-center">
+                            Booster used
+                          </th>
+                          <th scope="col" class="px-6 py-4 text-center">
+                            Points
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody *ngFor="let userGame of userGames; let i = index;">
+                        <tr class="{{i % 2 == 0 ? 'bg-white' : 'bg-gray-100' }}
+                        border-b">
+                          <td class="text-md font-light px-6 py-4 whitespace-nowrap">
+                            <span>{{ userGame.game.team1.name}}</span>
+                            <span> - </span>
+                            <span>{{ userGame.game.team2.name}}</span>
+                          </td>
+                          <td class="text-md font-light px-6 py-4 whitespace-nowrap text-center">
+                            <span>{{ userGame.prediction1 }}</span>
+                            <span> : </span>
+                            <span>{{ userGame.prediction2 }}</span>
+                          </td>
+                          <td class="text-md font-light px-6 py-4 whitespace-nowrap text-center">
+                            <span *ngIf="userGame.game.goalsTeam1 != null" class="">
+                              {{ userGame.game.goalsTeam1 }}
+                            </span>
+                            <span *ngIf="userGame.game.goalsTeam1 != null" class="">
+                              :
+                            </span>
+                            <span *ngIf="userGame.game.goalsTeam2 != null" class="">
+                              {{ userGame.game.goalsTeam2 }}
+                            </span>
+                          </td>
+                          <td class="text-md font-light px-6 py-4 whitespace-nowrap text-center" >
+                            <span *ngIf="userGame.boostScoreXTimes == 1">{{ userGame.boostScoreXTimes == 2 ? 'Yes' : 'No' }}</span>
+                            <div *ngIf="userGame.boostScoreXTimes == 2" class="flex item-center justify-center">
+                              <span class="bg-orange-200 text-purple-800 py-1 px-3 rounded-full text-lg">{{ userGame.boostScoreXTimes == 2 ? 'Yes' : 'No' }}</span>
+                            </div>
+                          </td>
+                          <td class="text-md font-light px-6 py-4 whitespace-nowrap text-center" >
+                            <span *ngIf="userGame.game.status == 'CALCULATED'" class="">
+                              {{ userGame.points }}
+                            </span>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </li>
+          </ul>
         </div>
       </div>
-
     </div>
   </div>
 

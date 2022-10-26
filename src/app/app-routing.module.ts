@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
-import { LoginComponent } from './login/login.component';
-import { TablesComponent } from './tables/tables.component';
+import { RouterModule, Routes, Router } from '@angular/router';
+import { LoginComponent } from './components/login/login.component';
+import { TablesComponent } from './components/tables/tables.component';
 import { PredictionComponent } from './components/prediction/prediction.component';
 import { RegisterComponent } from './components/register/register.component';
 import { AuthGuard } from './guards/auth.guard';
@@ -11,11 +11,17 @@ import { UserDetailsComponent } from './components/user-details/user-details.com
 import { UserPredictionsComponent } from './components/user-predictions/user-predictions.component';
 import { AdminAllGamesComponent } from './components/admin-all-games/admin-all-games.component';
 import { AdminGamesPlayedComponent } from './components/admin-games-played/admin-games-played.component';
+import { LeaderboardComponent } from './components/leaderboard/leaderboard.component';
+import { NotFoundComponent } from './components/not-found/not-found.component';
+import { CreditsComponent } from './components/credits/credits.component';
 
 const routes: Routes = [
+
   { path: "", redirectTo: "login", pathMatch: "full"},
   { path: "login", component: LoginComponent},
   { path: "register", component: RegisterComponent},
+  { path: "404", component: NotFoundComponent},
+  { path: "credits", component: CreditsComponent},
   { path: "predict",
     component: PredictionComponent,
     canActivate: [AuthGuard],
@@ -27,17 +33,23 @@ const routes: Routes = [
       data: { roles: [Role.ADMIN, Role.USER]}
 
   },
-  { path: "admindata/allusers",
+  { path: "leaderboard/list",
+      component: LeaderboardComponent,
+      canActivate: [AuthGuard],
+      data: { roles: [Role.ADMIN, Role.USER]}
+
+  },
+  { path: "admin/allusers",
     component: AdminComponent,
     canActivate: [AuthGuard],
     data: {roles: [Role.ADMIN]}
   },
-  { path: "admindata/noscore",
+  { path: "admin/noscore",
     component: AdminAllGamesComponent,
     canActivate: [AuthGuard],
     data: {roles: [Role.ADMIN]}
   },
-  { path: "admindata/allgamesplayed",
+  { path: "admin/allgamesplayed",
     component: AdminGamesPlayedComponent,
     canActivate: [AuthGuard],
     data: {roles: [Role.ADMIN]}
@@ -62,5 +74,10 @@ const routes: Routes = [
 })
 export class AppRoutingModule {
 
+  constructor(private router: Router) {
+    this.router.errorHandler = (error: any) => {
+      this.router.navigate(['404']);
+    }
+  }
 
 }

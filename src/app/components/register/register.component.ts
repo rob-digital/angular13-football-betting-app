@@ -13,6 +13,7 @@ export class RegisterComponent implements OnInit {
   isDarkEnable = false;
   user: User = new User();
   errorMessage: string = "";
+  inTransit = false
 
   constructor(private authenticationService: AuthenticationService, private router: Router) { }
 
@@ -21,7 +22,11 @@ export class RegisterComponent implements OnInit {
   }
 
   register() {
+    this.inTransit = true
     this.authenticationService.register(this.user).subscribe(data => {
+
+      if (data.response = 201) this.inTransit = false;
+
       this.router.navigate(['/login']);
     }, err => {
       if (err?.status === 409) {

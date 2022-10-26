@@ -9,12 +9,16 @@
 }
 .verticalAdjustment {
   transform: rotate(270deg);
-    font-size: xx-large;
-    position: absolute;
-    /* top: 60px; */
-    bottom: -138px;
-    // color: red;
-    left: -100px;
+  font-size: xx-large;
+  position: absolute;
+  bottom: 143px;
+  left: -90px;
+  font-weight: 700;
+
 }
 
+.groupInfo {
+  bottom: 6px;
+    left: 3px;
+}
 

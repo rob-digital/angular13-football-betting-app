@@ -1,0 +1,70 @@
+<div [ngClass]="{ dark: isDarkEnable }">
+
+  <app-spinner *ngIf="allUsers == null"></app-spinner>
+
+  <div *ngIf="allUsers != null">
+
+    <div *ngIf="allUsers.length == 0" class="ml-10">
+      Nothing to show yet!
+    </div>
+
+      <div *ngIf="allUsers.length > 0" class="allUsers flex flex-col max-w-screen-xl">
+
+
+        <div class="flex justify-center mt-12">
+          <ul class="bg-white rounded-lg border border-gray-200 text-gray-90 w-full">
+            <li class="border-b border-gray-200 w-full rounded-t-lg px-3
+            bg-gradient-to-r from-highlight1 to-blue-800 text-white dark:bg-gradient-to-r dark:from-blue-300 dark:to-sky-300  dark:text-gray-800
+            ">
+              <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
+                <div class="py-2 inline-block min-w-full sm:px-6">
+                  <div class="overflow-hidden tableWrapper">
+                    <table
+
+                    class="min-w-full">
+                      <thead class="border-b  text-white  dark:text-black">
+                        <tr class="text-lg
+                        bg-gradient-to-r from-highlight1 to-blue-800 text-white dark:bg-gradient-to-r dark:from-orange-300 dark:to-pink-400  dark:text-gray-800
+                        ">
+                          <th scope="col" class="px-6 py-4 text-center">
+                            Position
+                          </th>
+                          <th scope="col" class="px-6 py-4 text-center">
+                            Username
+                          </th>
+                          <th scope="col" class="px-6 py-4 text-center">
+                            Boosters left
+                          </th>
+                          <th scope="col" class="px-6 py-4 text-center">
+                           Points
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody *ngFor="let user of allUsers; let i = index;">
+                        <tr class="{{i % 2 == 0 ? 'bg-white' : 'bg-gray-100' }}
+                        border-b text-black font-bold">
+
+                          <td class="text-md px-6 py-4 whitespace-nowrap text-center">
+                            <span>{{ i + 1 }}</span>
+                          </td>
+                          <td class="text-md px-6 py-4">
+                            <span>{{ user.username }}</span>
+                          </td>
+                          <td class="text-md px-6 py-4 whitespace-nowrap text-center">
+                            <span>{{ user.activeBoosters }}</span>
+                          </td>
+                          <td class="text-md  px-6 py-4 whitespace-nowrap text-center">
+                            <span>{{ user.points }}</span>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
