@@ -9,8 +9,9 @@ import { LeaderboardUser } from '../../classes/leaderboard-user';
 })
 export class LeaderboardComponent implements OnInit {
 
-  allUsers: LeaderboardUser[] = [];
+  allUsers: LeaderboardUser[] = null;
   isDarkEnable = false;
+  pointsCalculated: boolean = false;
 
 
   constructor(private leaderboard: LeaderboardService) { }
@@ -18,9 +19,14 @@ export class LeaderboardComponent implements OnInit {
 
   ngOnInit(): void {
     this.leaderboard.getUsersForLeaderboard().subscribe(
-      (res) => {
+      (res: LeaderboardUser[]) => {
         this.allUsers = res
 
+        for (let user of this.allUsers) {
+          if (user.points > 0) {
+            this.pointsCalculated = true
+          }
+        }
       },
       (error) => {
         console.log("Leaderboard display error", error);

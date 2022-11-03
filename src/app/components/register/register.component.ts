@@ -25,7 +25,7 @@ export class RegisterComponent implements OnInit {
     this.inTransit = true
     this.authenticationService.register(this.user).subscribe(data => {
 
-      if (data.response = 201) this.inTransit = false;
+      if (data.response == 201) this.inTransit = false;
 
       this.router.navigate(['/login']);
     }, err => {

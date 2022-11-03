@@ -39,14 +39,20 @@ export class LoginComponent implements OnInit {
     this.inTransit = true
     this.authenticationService.login(this.user).subscribe(data => {
 
-      if (data.response = 201) this.inTransit = false;
+      if (data.response == 201) this.inTransit = false;
 
 
     }, error => {
       if (error?.status === 500) {
         console.log("Server error! Data not available!");
+        this.loginError = "Server error! Data not available!";
 
-      } else {
+      } else if (error?.status === 0) {
+        console.log(error.statusText);
+        this.loginError = error.statusText + ", server is not responding.";
+      }
+
+      else {
         this.loginError = 'Incorrect username or password.';
         console.log(error);
 

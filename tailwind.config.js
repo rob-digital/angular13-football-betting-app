@@ -12,7 +12,9 @@ module.exports = {
         'sans': ['Montserrat-Regular', 'Helvetica', 'Arial', 'sans-serif']
       },
       colors: {
-        highlight1: '#EA4C3C'
+        highlight1: '#EA4C3C',
+        highlight2: '#da7d56',
+        highlight3: '#fdea9d',
       }
     },
 
