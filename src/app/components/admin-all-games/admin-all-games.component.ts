@@ -27,7 +27,6 @@ export class AdminAllGamesComponent implements OnInit {
     this.adminService.findGamesWithoutScore().subscribe(
       (response) => {
         this.allGames = response;
-        console.log('this.allGamesADMIN:', this.allGames)
       },
       (error) => {
         console.log("admin-all-games error", error);
@@ -47,14 +46,14 @@ export class AdminAllGamesComponent implements OnInit {
   goToAllUsers() {
     this.router.navigateByUrl('/admin/allusers');
   }
+  goToAllTeams() {
+    this.router.navigateByUrl('/admin/allteams');
+  }
 
   onInsertClick(event, i) {
-  console.log('i:', i)
 
     let gameId = this.allGames.find(el => el == this.allGames[i]).id;
 
-  console.log('selectedOptionsTeam1:', this.selectedOptionsTeam1)
-  console.log('selectedOptionsTeam2:', this.selectedOptionsTeam2)
 
   let payload: ScorePayload = {
     goalsTeam1: this.selectedOptionsTeam1[gameId - 1],
@@ -65,7 +64,6 @@ export class AdminAllGamesComponent implements OnInit {
   this.adminService.submitGameScore(gameId, payload).subscribe(
     (res) => {
       fetch(location.href).then(response => {
-        console.log(response.status)
 
         if (response.status == 200) {
           this.selectedOptionsTeam1 = []

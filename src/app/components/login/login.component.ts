@@ -20,12 +20,6 @@ export class LoginComponent implements OnInit {
 
   ngOnInit(): void {
 
-  //   if ( document.URL.includes("login") ) {
-  //    console.log("Login here");
-  //    this.authenticationService.removeUserFromSession();
-  // }
-
-
     if (this.authenticationService.currentUser == null || this.authenticationService.currentUsername == null)
    {
       history.pushState(null, '', location.href);
@@ -48,7 +42,6 @@ export class LoginComponent implements OnInit {
         this.loginError = "Server error! Data not available!";
 
       } else if (error?.status === 0) {
-        console.log(error.statusText);
         this.loginError = error.statusText + ", server is not responding.";
       }
 

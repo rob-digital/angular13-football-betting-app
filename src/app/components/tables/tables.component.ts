@@ -24,7 +24,6 @@ export class TablesComponent implements OnInit {
     this.tableService.getAllTeams().subscribe(
       (response: Team[]) => {
         this.teams = response;
-        console.log("TEAMS:", this.teams);
 
         const groups = new Set(this.teams.map(z => z.groupName))
         this.groupNames = [...groups]

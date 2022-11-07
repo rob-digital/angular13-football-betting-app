@@ -26,7 +26,6 @@ export class PredictionService extends RequestBaseService{
   }
 
   fetchUserPredictions(userId: number): Observable<PredictionPayload[]> {
-  console.log('userId::', userId)
 
     return this.http.get<PredictionPayload[]>(this.urlPrefix + "/api/v1/predictions/user/" + userId, { responseType: "json" });
 

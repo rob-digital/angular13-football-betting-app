@@ -25,7 +25,6 @@ export class AdminGamesPlayedComponent implements OnInit {
     this.adminService.findPlayedGames().subscribe(
       (response) => {
         this.gamesPlayed = response;
-        console.log('this.gamesPlayed:', this.gamesPlayed)
       },
       (error) => {
         console.log("admin-games-played", error);
@@ -44,11 +43,11 @@ export class AdminGamesPlayedComponent implements OnInit {
   goToAllUsers() {
     this.router.navigateByUrl('/admin/allusers');
   }
-
+  goToAllTeams() {
+    this.router.navigateByUrl('/admin/allteams');
+  }
 
   onCalculateClick(e, i) {
-    console.log(this.gamesPlayed);
-    console.log(i);
 
     let gameId = this.gamesPlayed.find(el => el == this.gamesPlayed[i]).id;
 
@@ -60,7 +59,6 @@ export class AdminGamesPlayedComponent implements OnInit {
 
         (res) => {
           fetch(location.href).then(response => {
-            console.log(response.status)
             if (response.status == 200) {
               this.successMessage = "Points calculated"
               this.initiatePage();

@@ -14,7 +14,6 @@ export class UserDetailsComponent {
   constructor(private router: Router) {
     //works only in the constructor.
     this.user = Object.assign(new User(), this.router.getCurrentNavigation()?.extras.state);
-    console.log('this.user:', this.user)
   }
 
 }

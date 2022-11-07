@@ -14,6 +14,7 @@ import { AdminGamesPlayedComponent } from './components/admin-games-played/admin
 import { LeaderboardComponent } from './components/leaderboard/leaderboard.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
 import { CreditsComponent } from './components/credits/credits.component';
+import { AllTeamsComponent } from './components/all-teams/all-teams.component';
 
 const routes: Routes = [
 
@@ -41,6 +42,11 @@ const routes: Routes = [
   },
   { path: "admin/allusers",
     component: AdminComponent,
+    canActivate: [AuthGuard],
+    data: {roles: [Role.ADMIN]}
+  },
+  { path: "admin/allteams",
+    component: AllTeamsComponent,
     canActivate: [AuthGuard],
     data: {roles: [Role.ADMIN]}
   },

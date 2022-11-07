@@ -1,0 +1,16 @@
+package.json
+
+  // "start": "ng serve --proxy-config proxy.conf.json"
+
+--------------------------
+
+proxy.conf.json
+
+{
+  "/api/*": {
+    "target": "http://127.0.0.1:4200",
+    "secure": false,
+    "logLevel": "debug",
+    "changeOrigin": true
+  }
+}

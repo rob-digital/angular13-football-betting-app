@@ -12,6 +12,7 @@ export class LeaderboardComponent implements OnInit {
   allUsers: LeaderboardUser[] = null;
   isDarkEnable = false;
   pointsCalculated: boolean = false;
+  arrayOfIncrements: any[] = [];
 
 
   constructor(private leaderboard: LeaderboardService) { }
@@ -21,12 +22,15 @@ export class LeaderboardComponent implements OnInit {
     this.leaderboard.getUsersForLeaderboard().subscribe(
       (res: LeaderboardUser[]) => {
         this.allUsers = res
+       
 
         for (let user of this.allUsers) {
           if (user.points > 0) {
             this.pointsCalculated = true
           }
         }
+
+
       },
       (error) => {
         console.log("Leaderboard display error", error);

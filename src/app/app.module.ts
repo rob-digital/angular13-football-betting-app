@@ -19,6 +19,7 @@ import { SuccessMessageComponent } from './components/success-message/success-me
 import { LeaderboardComponent } from './components/leaderboard/leaderboard.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
 import { CreditsComponent } from './components/credits/credits.component';
+import { AllTeamsComponent } from './components/all-teams/all-teams.component';
 // import { authInterceptorProviders } from './interceptors/auth.interceptor';
 @NgModule({
   declarations: [
@@ -36,7 +37,8 @@ import { CreditsComponent } from './components/credits/credits.component';
     SuccessMessageComponent,
     LeaderboardComponent,
     NotFoundComponent,
-    CreditsComponent
+    CreditsComponent,
+    AllTeamsComponent
   ],
   imports: [
     BrowserModule,

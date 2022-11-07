@@ -48,7 +48,7 @@ export class PredictionComponent implements OnInit {
   inTransit: boolean = false;
   todaysDate: Date = null;
   allDatesWithDays: any[] = [];
-
+  timeZones: any[] = [];
 
   // prepareGamesToSlip: any[] = []
   gamesOnSlip: any[] = []
@@ -70,9 +70,6 @@ export class PredictionComponent implements OnInit {
 
   ngOnInit(): void {
 
-    this.initiatePage();
-
-
     if (sessionStorage.getItem("currentUser") == null) {
       this.router.navigateByUrl('/login');
       return;
@@ -80,17 +77,11 @@ export class PredictionComponent implements OnInit {
 
     this.userId = JSON.parse(sessionStorage.getItem("currentUser")).id;
     this.booster = JSON.parse(sessionStorage.getItem("currentUser")).activeBoosters;
-    console.log('this.booster00000:', this.booster)
 
-    if (this.sortGamesByDatesArray)
-    console.log('this.sortGamesByDatesArray11111:', this.sortGamesByDatesArray)
-
+    this.initiatePage();
 
     setInterval(() => {
 
-      // const JWT = JSON.parse(sessionStorage.getItem("currentUser")).accessToken
-      // const jwtPayload = JSON.parse(window.atob(JWT.split('.')[1]))
-      // console.log(jwtPayload.exp);
       var convertDateTime = function(num) { return ('00'+num).slice(-2) };
       var todaysDate;
       todaysDate = new Date();
@@ -101,7 +92,6 @@ export class PredictionComponent implements OnInit {
                     convertDateTime(todaysDate.getUTCMinutes())    + ':' +
                     convertDateTime(todaysDate.getUTCSeconds());
 
-                    console.log('todaysDate:', todaysDate)
 
       var currentTime;
 
@@ -112,7 +102,6 @@ export class PredictionComponent implements OnInit {
 
           this.sortGamesByDatesArray[i].forEach((element, j) => {
             if (element.matchDateTime == todaysDate) {
-              // console.log("HOOOOORAYYY!!!", element.matchDateTime);
               let gameStartsNow = this.allGames.find(el => el.matchDateTime == todaysDate)
               let indexInAllGames = this.allGames.indexOf(gameStartsNow);
               let indexInAllDatesArray = this.sortGamesByDatesArray[i].indexOf(gameStartsNow);
@@ -126,13 +115,11 @@ export class PredictionComponent implements OnInit {
 
                 this.selectedOptionsTeam1 = []
                 this.selectedOptionsTeam2 = []
-                console.log('this.selectedOptionsTeam2:', this.selectedOptionsTeam2)
 
+                this.slipText = "One of the games from your slip has already started. Your slip was cleared. Please place your predictions again."
+                document.getElementById('saveModalButton').style.display = 'none';
 
-                  this.slipText = "One of the games from your slip has already started. Your slip was cleared. Please place your predictions again."
-                  document.getElementById('saveModalButton').style.display = 'none';
-
-                  this.initiatePage()
+                this.initiatePage()
 
                 if (this.gamesOnSlip) {
                   let indexInGameOnSlip = this.gamesOnSlip.indexOf(gameStartsNow)
@@ -151,8 +138,6 @@ export class PredictionComponent implements OnInit {
       }
     }, 1000)
 
-    console.log('this.todaysDate:', this.todaysDate)
-
   }
 
   initiatePage() {
@@ -167,7 +152,6 @@ export class PredictionComponent implements OnInit {
         let allDatesArray = [...uniqueDates]
 
         this.allDatesArray = allDatesArray
-        console.log('allDatesArray:', allDatesArray)
 
         let days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
         this.allDatesWithDays = []
@@ -185,10 +169,28 @@ export class PredictionComponent implements OnInit {
         }
 
 
-        console.log('this.allDatesWithDays:', this.allDatesWithDays)
+
+        for(let i = 0; i < sortGamesByDatesArray.length; i++) {
+          for(let j = 0; j < sortGamesByDatesArray[i].length; j++) {
+            let obj = {};
+            let buildPuneTimeHours = Number(sortGamesByDatesArray[i][j].matchDateTime.slice(11, -6)) + 5 == 24 ? "00": Number(sortGamesByDatesArray[i][j].matchDateTime.slice(11, -6)) + 5
+            let buildZurichTimeHours = Number(sortGamesByDatesArray[i][j].matchDateTime.slice(11, -6)) + 1
+            let buildPuneTimeMinutes = Number(sortGamesByDatesArray[i][j].matchDateTime.slice(14, -3)) + 30
+            let buildPuneWholeTime = (sortGamesByDatesArray[i][j].matchDateTime).replace(sortGamesByDatesArray[i][j].matchDateTime.slice(11, -6), buildPuneTimeHours)
+            let buildZurichWholeTime = (sortGamesByDatesArray[i][j].matchDateTime).replace(sortGamesByDatesArray[i][j].matchDateTime.slice(11, -6), buildZurichTimeHours)
+
+            Object.assign(obj, {
+              gameId: sortGamesByDatesArray[i][j].id,
+              gameTimeGMT: sortGamesByDatesArray[i][j].matchDateTime,
+              gameTimeIST: buildPuneWholeTime,
+              gameTimeCET: buildZurichWholeTime,
+            })
+            this.timeZones[sortGamesByDatesArray[i][j].id] = obj
+          }
+
+        }
 
         this.sortGamesByDatesArray = sortGamesByDatesArray;
-        console.log('this.sortGamesByDatesArray:', this.sortGamesByDatesArray)
         this.sortGamesByDatesArray.forEach(el => el.sort((a, b) => a.id - b.id));
 
         for (let i = 0; i < this.sortGamesByDatesArray.length; i++) {
@@ -237,22 +239,15 @@ export class PredictionComponent implements OnInit {
 
     this.unsortedPayload[gameIndex] = null
     this.unsortedGames[gameIndex] = null
-    console.log('this.unsortedPayload0000:', this.unsortedPayload)
-    console.log('this.unsortedGames-0000:', this.unsortedGames)
 
     this.payloadReady = this.unsortedPayload.filter(el => el)
     this.gamesOnSlip = this.unsortedGames.filter(el => el)
-
-    console.log('this.payloadReady4444:', this.payloadReady)
-    console.log(' this.gamesOnSlip4444:',  this.gamesOnSlip)
-
 
     if (this.booster == 0)
       document.querySelectorAll('.starContainer').forEach(el => el.classList.add('hide'))
 
     document.querySelectorAll(".modalContent"+gameId).forEach(el => el.remove());
 
-    console.log('this.payloadReady % %%%:', this.payloadReady)
     if (this.payloadReady.length == 0) {
        this.slipText = "Your slip is empty"
        document.getElementById('saveModalButton').style.display = 'none';
@@ -341,13 +336,10 @@ export class PredictionComponent implements OnInit {
 
   let clickedPrediction = this.unsortedPayload.find(el => el == this.payloadReady[i])
   let gameId =  clickedPrediction.game_id
-  console.log('gameId:', gameId)
   let gameIndex = this.unsortedPayload.indexOf(clickedPrediction)
-  console.log('gameIndex--CalcBooster:', gameIndex)
 
     if (this.booster > 0 && this.booster <= 3) {
 
-      console.log('this.unsortedPayload[gameIndex]:', this.unsortedPayload[gameIndex])
       if (this.unsortedPayload[gameIndex].boostScoreXTimes == 1) {
         this.unsortedPayload[gameIndex].boostScoreXTimes = 2
         this.booster -= 1
@@ -357,7 +349,6 @@ export class PredictionComponent implements OnInit {
 
         let localTimeTwoIcon = document.querySelector('.timesTwo' + gameId)
         localTimeTwoIcon.classList.remove('invisible')
-        console.log('localStarIcon:', localStarIcon)
       }
     }
 
@@ -367,8 +358,6 @@ export class PredictionComponent implements OnInit {
       if (this.booster == 0)
         document.querySelectorAll('.starContainer').forEach(el => el.classList.add('hide'))
 
-      console.log('this.booster:', this.booster)
-      if (this.booster == 0) console.log("ZERO");
   }
 
 
@@ -395,7 +384,6 @@ export class PredictionComponent implements OnInit {
 
       this.stateOfSlip.getUnsortedPayloadFromSlipState().subscribe(
         (response) => {
-          console.log('responseDDDDDDDDDD:', response)
           response != null ? localUnsortedPayload = response : localUnsortedPayload = []
         },
         () => {}
@@ -434,23 +422,18 @@ export class PredictionComponent implements OnInit {
     }
 
     let chosenGame = this.allGames.find(el => el.id == gameId)
-    console.log('chosenGame:', chosenGame)
     localUnsortedGames[gameId] = chosenGame
-    console.log('localUnsortedGamesVVVVVVVVVV:', localUnsortedGames)
 
     let gamesToDisplayOnSlip = localUnsortedGames.filter(el => el)
 
     localUnsortedPayload[gameId] = singlePredictionPayload
     let payloadToSubmit = localUnsortedPayload.filter(el => el)
-    console.log('payloadToSubmit:', payloadToSubmit)
-
 
     this.saveDataToSlipState(localUnsortedPayload, localUnsortedGames, payloadToSubmit, gamesToDisplayOnSlip)
 
     this.stateOfSlip.getGamesFromSlipState().subscribe(
       (response) => {
         this.gamesOnSlipLength = response.length
-        console.log('this.gamesOnSlipLength:', this.gamesOnSlipLength)
       }
     );
 
@@ -464,7 +447,6 @@ export class PredictionComponent implements OnInit {
       (res) => {
 
         fetch(location.href).then(response => {
-          console.log(response.status)
 
           if (response.status == 200) {
 
@@ -521,15 +503,8 @@ export class PredictionComponent implements OnInit {
   }
 
   ngOnDestroy() {
-    // if (this .subscription != null) {
-    //   this.subscription.unsubscribe();
-    // }
     this.saveDataToSlipState([], [], [], [])
 
-  }
-
-  closeModalTest() {
-    document
   }
 
 }

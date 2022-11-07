@@ -40,7 +40,6 @@ export class UserPredictionsComponent implements OnInit {
     this.predictionService.fetchUserPredictions(this.userId).subscribe(
       (response) => {
         this.userGames = response;
-        console.log('this.userGames:', this.userGames)
 
         this.points = this.userGames.map(el => el.points).reduce((a, b) => {
           return a + b
@@ -49,7 +48,6 @@ export class UserPredictionsComponent implements OnInit {
       },
       (error) => {
         console.log("Error while fetching user predictions", error);
-
       }
     )
 

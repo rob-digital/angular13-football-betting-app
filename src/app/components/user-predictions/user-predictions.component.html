@@ -11,7 +11,7 @@
 
       <div *ngIf="userGames.length > 0" class="userData flex flex-col max-w-screen-xl">
 
-        <h3 class="text-xl ml-3 mb-12 dark:text-yellow-300" *ngIf="userGames != null">Hi, {{ userGames[0].user.username }}</h3>
+        <h3 class="text-xl ml-3 mb-12 dark:text-yellow-300" *ngIf="userGames != null">Hi, {{ userGames[0].user.name }}</h3>
         <h3 class="text-lg ml-3 dark:text-yellow-300" *ngIf="boostersLeft != null">Boosters left: {{ boostersLeft }}</h3>
         <h3 class="text-lg ml-3 dark:text-yellow-300" *ngIf="points != null">Total points: {{ points }}</h3>
 

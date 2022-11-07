@@ -259,7 +259,10 @@
                               class="gameTable rounded-lg w-full table-auto rounded-lg text-black mb-8 dark:shadow-none">
                               <tr class="">
                                 <th class="text-center relative text-lg
-                                bg-gradient-to-r from-sky-600 to-blue-800 text-white dark:bg-gradient-to-r dark:from-cyan-300 dark:to-sky-300  dark:text-gray-800">{{ game.matchDateTime.slice(11, -3) }}</th>
+                                bg-gradient-to-r from-sky-600 to-blue-800 text-white dark:bg-gradient-to-r dark:from-cyan-300 dark:to-sky-300  dark:text-gray-800"> {{ game.matchDateTime.slice(11, -3) }} GMT</th>
+                                <!-- <th class="text-center relative text-lg
+                                bg-gradient-to-r from-sky-600 to-blue-800 text-white dark:bg-gradient-to-r dark:from-cyan-300 dark:to-sky-300  dark:text-gray-800">{{ (timeZones[game.id].gameTimeIST).slice(11, -6) }}:30 IST / {{ (timeZones[game.id].gameTimeCET).slice(11, -3) }} CET / {{ game.matchDateTime.slice(11, -3) }} GMT</th>
+                               -->
                               </tr>
                                   <tbody class="relative text-gray-600 flex text-base font-semibold">
 
