@@ -15,7 +15,8 @@ export class RegisterComponent implements OnInit {
   errorMessage: string = "";
   errorMessageName: string = null;
   errorMessageUsername: string = null;
-  inTransit = false
+  inTransit = false;
+  successMessage: string = "";
 
   constructor(private authenticationService: AuthenticationService, private router: Router) { }
 
@@ -41,9 +42,24 @@ export class RegisterComponent implements OnInit {
 
     this.authenticationService.register(this.user).subscribe(data => {
 
-      if (data.response == 201) this.inTransit = false;
+      if (data) {
 
-      this.router.navigate(['/login']);
+        let counter = 5
+        let registerInterval = setInterval(() => {
+
+          this.successMessage = "Registration successful. You'll be redirected to the login page in " + counter + ".";
+          counter--
+
+          if (counter == 0) {
+            this.successMessage = ""
+            this.inTransit = false
+            this.router.navigate(['/login']);
+            clearInterval(registerInterval)
+          }
+        }, 1000)
+
+      }
+
     }, err => {
       if (err?.status === 409) {
         this.errorMessage = 'Username already exists.';

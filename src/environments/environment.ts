@@ -5,6 +5,8 @@
 export const environment = {
   production: false,
   BASE_URL: "http://localhost:6060"
+  // BASE_URL: "http://edinlp0127:6060"
+
 };
 
 /*

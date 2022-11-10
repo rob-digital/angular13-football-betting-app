@@ -13,8 +13,7 @@ export class LoginService {
 
   urlPrefix: string =  environment.BASE_URL;
 
-  private httpClient: HttpClient | null = null
-  constructor(private httpBackend: HttpBackend, private authenticationService: AuthenticationService)  // JwtInterceptor will be not used here
+  constructor( private authenticationService: AuthenticationService)  // JwtInterceptor will be not used here
   { }
 
   logoutUSer() {

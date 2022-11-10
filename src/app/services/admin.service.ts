@@ -20,7 +20,6 @@ export class AdminService extends RequestBaseService{
   }
 
   findAllUsers(): Observable<any> {
-    console.log('this.getHeaders:', this.getHeaders)
     return this.http.get(API_URL + '/allusers', {headers: this.getHeaders});
   }
 

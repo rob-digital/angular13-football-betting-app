@@ -61,6 +61,9 @@ export class AdminGamesPlayedComponent implements OnInit {
           fetch(location.href).then(response => {
             if (response.status == 200) {
               this.successMessage = "Points calculated"
+              setTimeout(() => {
+                this.successMessage = ""
+              }, 2000);
               this.initiatePage();
 
             }

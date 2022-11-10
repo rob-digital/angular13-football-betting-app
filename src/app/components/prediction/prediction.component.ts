@@ -16,7 +16,7 @@ import { AuthenticationService } from '../../services/authentication.service';
 export class PredictionComponent implements OnInit {
 
   isDarkEnable = false;
-  flagsURL: string = "https://hatscripts.github.io/circle-flags/flags/";
+  // flagsURL: string = "https://hatscripts.github.io/circle-flags/flags/";
   extension: string = ".svg";
   visible = false;
 
@@ -37,6 +37,7 @@ export class PredictionComponent implements OnInit {
   payloadCount: number = 0;
   tooltip1_status: number[] = [];
   tooltip2_status: number[] = [];
+  tooltip3_status: number[] = [];
 
   actualGameIndex: number = 0;
   slipText: string = "";
@@ -58,6 +59,7 @@ export class PredictionComponent implements OnInit {
   unsortedGames: any[] = []
   unsortedPayload: any[] = []
   gamesOnSlipLength: number = null;
+  gamesIdsOnSlip: number[] = [];
 
   // subscription: Subscription;
 
@@ -229,6 +231,10 @@ export class PredictionComponent implements OnInit {
     this.selectedOptionsTeam1[gameId-1] = null
     this.selectedOptionsTeam2[gameId-1] = null
 
+    document.querySelector('.addToSlip' + gameId).removeAttribute('disabled')
+    document.querySelector('.select1-' + gameId).removeAttribute('disabled')
+    document.querySelector('.select2-' + gameId).removeAttribute('disabled')
+
     if (this.booster < 3 && this.booster >= 0) {
 
       if (this.unsortedPayload[gameIndex].boostScoreXTimes == 2) {
@@ -246,7 +252,7 @@ export class PredictionComponent implements OnInit {
     if (this.booster == 0)
       document.querySelectorAll('.starContainer').forEach(el => el.classList.add('hide'))
 
-    document.querySelectorAll(".modalContent"+gameId).forEach(el => el.remove());
+    document.querySelectorAll(".modalContent" + gameId).forEach(el => el.remove());
 
     if (this.payloadReady.length == 0) {
        this.slipText = "Your slip is empty"
@@ -321,7 +327,12 @@ export class PredictionComponent implements OnInit {
     this.gamesOnSlip.sort((a, b) => a.id - b.id)
     this.payloadReady.sort((a, b) => a.game_id - b.game_id)
 
-
+    for (let i = 0; i < localPayloadToSubmit.length; i++) {
+      this.gamesIdsOnSlip.push(localPayloadToSubmit[i].game_id)
+      document.querySelector('.addToSlip' + localPayloadToSubmit[i].game_id).setAttribute('disabled', 'true')
+      document.querySelector('.select1-' + localPayloadToSubmit[i].game_id).setAttribute('disabled', 'true')
+      document.querySelector('.select2-' + localPayloadToSubmit[i].game_id).setAttribute('disabled', 'true')
+    }
 
     if (this.gamesOnSlip.length == 0) {
       this.slipText = "Your slip is empty"
@@ -334,6 +345,7 @@ export class PredictionComponent implements OnInit {
 
   calculateBooster(el, i) {
 
+
   let clickedPrediction = this.unsortedPayload.find(el => el == this.payloadReady[i])
   let gameId =  clickedPrediction.game_id
   let gameIndex = this.unsortedPayload.indexOf(clickedPrediction)
@@ -344,11 +356,14 @@ export class PredictionComponent implements OnInit {
         this.unsortedPayload[gameIndex].boostScoreXTimes = 2
         this.booster -= 1
 
-        let localStarIcon = document.querySelector('.starContainer' + gameId)
-        localStarIcon.classList.add('hide')
+        this.tooltip2_status.forEach(el => el = null)
 
-        let localTimeTwoIcon = document.querySelector('.timesTwo' + gameId)
-        localTimeTwoIcon.classList.remove('invisible')
+        let localStarIcon = document.querySelector('.star' + gameId)
+        localStarIcon.classList.add('hideMe')
+        // localStarIcon.classList.toggle('hideMe')
+
+        let localBoosterUsed = document.querySelector('.boosterUsed' + gameId)
+        localBoosterUsed.classList.remove('invisible')
       }
     }
 
@@ -357,6 +372,45 @@ export class PredictionComponent implements OnInit {
 
       if (this.booster == 0)
         document.querySelectorAll('.starContainer').forEach(el => el.classList.add('hide'))
+
+  }
+
+  removeBooster(el, i) {
+
+
+  let clickedPrediction = this.unsortedPayload.find(el => el == this.payloadReady[i])
+  let gameId =  clickedPrediction.game_id
+  let gameIndex = this.unsortedPayload.indexOf(clickedPrediction)
+
+  let newStar = `
+  <div _ngcontent-vyd-c48="" class="cursor-pointer mr-2 starContainer starContainer${gameIndex}" id="starContainer${gameIndex}"><svg _ngcontent-vyd-c48="" title="Use Booster" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" class="star star${gameIndex}"><path _ngcontent-vyd-c48="" d="M316.9 18C311.6 7 300.4 0 288.1 0s-23.4 7-28.8 18L195 150.3 51.4 171.5c-12 1.8-22 10.2-25.7 21.7s-.7 24.2 7.9 32.7L137.8 329 113.2 474.7c-2 12 3 24.2 12.9 31.3s23 8 33.8 2.3l128.3-68.5 128.3 68.5c10.8 5.7 23.9 4.9 33.8-2.3s14.9-19.3 12.9-31.3L438.5 329 542.7 225.9c8.6-8.5 11.7-21.2 7.9-32.7s-13.7-19.9-25.7-21.7L381.2 150.3 316.9 18z"></path></svg></div>
+  `
+
+  if (this.booster < 3 && this.booster >= 0) {
+
+    if (this.unsortedPayload[gameIndex].boostScoreXTimes == 2) {
+      this.unsortedPayload[gameIndex].boostScoreXTimes = 1
+      this.booster += 1
+
+        this.tooltip3_status.forEach(el => el = null)
+
+        // let localStarIcon = document.querySelector('.star' + gameId)
+        // localStarIcon.classList.remove('hideMe')
+
+        // document.querySelector('.starGroup' + gameId).innerHTML += (newStar)
+
+        document.querySelector('.starGroup' + gameId).insertAdjacentHTML('afterbegin', newStar)
+        document.querySelectorAll('.starContainer' + gameId).forEach((element, i) => {
+          document.querySelectorAll('.starContainer' + gameId)[0].remove()
+        });
+
+        let localTimeTwoIcon = document.querySelector('.boosterUsed' + gameId)
+        localTimeTwoIcon.classList.add('invisible')
+      }
+    }
+
+    this.payloadReady = this.unsortedPayload.filter(el => el)
+    this.gamesOnSlip = this.unsortedGames.filter(el => el)
 
   }
 
@@ -418,6 +472,9 @@ export class PredictionComponent implements OnInit {
     if (singlePredictionPayload.prediction1 == null || singlePredictionPayload.prediction2 == null)
     {
       this.warningMessage = "You cannot add empty value to the slip"
+      setTimeout(() => {
+        this.warningMessage = ""
+      }, 2000);
       return;
     }
 
@@ -476,6 +533,9 @@ export class PredictionComponent implements OnInit {
           }
 
             this.successMessage = "Your predictions have been submitted successfully.\n GOOD LUCK!";
+            setTimeout(() => {
+              this.successMessage = ""
+            }, 2000);
 
             this.saveDataToSlipState([], [], [], [])
 
@@ -488,7 +548,9 @@ export class PredictionComponent implements OnInit {
       (error) => {
         this.errorMessage = "Error while submitting predictions.\n It is highly likely that your access token has expired. Please logout and login again. Try submitting your predictions again."
         console.log("Error while submitting predictions", error);
-
+        setTimeout(() => {
+          this.errorMessage = ""
+        }, 4000);
       }
     );
   }

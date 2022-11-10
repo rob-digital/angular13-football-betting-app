@@ -1,6 +1,4 @@
-.modalContent {
 
-}
 
 .currentGamesContainer
 {
@@ -15,7 +13,7 @@
   border-bottom: none;
 }
 
-#addToSlip {
+.addToSlip {
   right: -142px;
   top: 47px;
 }
@@ -31,7 +29,7 @@ tbody
 
 .success
 {
-  top: 254px;
+  top: 64px;
 }
 
 #modalButton
@@ -44,11 +42,14 @@ tbody
 }
 
 .modal-content{
-    width: 600px;
+    width: 650px;
+    margin-left: -12.5%;
     .modalContent {
       display: grid;
       // grid-template-columns: [first] 50% auto [last] 100px;
-      grid-template-columns: [first] 280px 100px [last] 110px;
+      // grid-template-columns: [first] 280px 100px [last] 110px;
+      // grid-template-columns: [first] 252px 100px 100px [last] 110px;
+      grid-template-columns: [first] 374px 50px 50px [last] 124px;
 
       background-color: #9eb0c8;
       margin-bottom: 5px;
@@ -67,8 +68,8 @@ svg{
   fill: #ffd700;
 }
 
-.hide {
-  display: none;
+.hideMe {
+  visibility: collapse;
 }
 #saveModalButton {
     width: 80px;
@@ -90,4 +91,18 @@ svg{
 .singlePredictionWrappaer
 {
   margin-bottom: -33px;
+}
+.tooltipBin, .tooltipStar, .tooltipBooster
+{
+  // transform: translateX(30px);
+  transform: translateY(-50px);
+  z-index: 99;
+}
+.boosterUsed
+{
+  margin-top: -14px;
+  left: 19rem;
+  :hover {
+    cursor: pointer;
+  }
 }

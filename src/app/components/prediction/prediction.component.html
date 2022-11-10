@@ -131,47 +131,67 @@
                     *ngIf="gamesOnSlip != null"
                     class="modalContent{{venue.id}} modalContent items-center justify-center flex flex-row w-full text-xl">
                       <div class="justify-self-start flex">
-                        <div class="flex item-center justify-center absolute timesTwo timesTwo{{venue.id}} invisible left-6">
-                          <span class="bg-highlight1 text-white py-1 px-2 rounded-full text-sm">x2</span>
-                        </div>
-
-                        <div class="px-2" *ngIf="gamesOnSlip[k] != null">{{ venue.team1.name }}</div>
-                        <div *ngIf="gamesOnSlip[k] != null"> - </div>
-                        <div class="px-2" *ngIf="gamesOnSlip[k] != null">{{ venue.team2.name }}</div>
+                        <div class="px-2 " *ngIf="gamesOnSlip[k] != null">{{ venue.team1.name }}</div>
+                        <div class="" *ngIf="gamesOnSlip[k] != null"> - </div>
+                        <div class="px-2 " *ngIf="gamesOnSlip[k] != null">{{ venue.team2.name }}</div>
                       </div>
                       <div class="justify-self-center flex">
-                        <div class="px-2" *ngIf="payloadReady[k] != null">{{ payloadReady[k].prediction1 }}</div>
-                        <div class="text-2xl px-0" *ngIf="payloadReady[k] != null"> : </div>
-                        <div class="px-2" *ngIf="payloadReady[k] != null">{{ payloadReady[k].prediction2 }}</div>
+
+                          <div class="group flex item-center justify-center absolute boosterUsed boosterUsed{{venue.id}} invisible">
+                            <span
+                            (click)="removeBooster(e, k)"
+                            (mouseover)="tooltip3_status[k] = 1"
+                            (mouseout)="tooltip3_status[k] = 0"
+                            class="bg-highlight1 text-white py-1 px-2 rounded-full text-sm font-bold">Booster applied</span>
+                            <span class="tooltipBooster hidden group-hover:block group-hover:opacity-100 w-max p-2 text-white transition-opacity bg-gray-800 text-sm text-gray-100 rounded-md absolute left-full
+                             opacity-0 m-4 mx-auto">Remove booster
+                            </span>
+                          </div>
+
+
+                      </div>
+                      <div class="justify-self-center flex">
+                        <div class="px-2 " *ngIf="payloadReady[k] != null">{{ payloadReady[k].prediction1 }}</div>
+                        <div class="text-2xl px-0 " *ngIf="payloadReady[k] != null"> : </div>
+                        <div class="px-2 " *ngIf="payloadReady[k] != null">{{ payloadReady[k].prediction2 }}</div>
                       </div>
                       <div class="flex justify-end">
                         <div *ngIf="gamesOnSlip[k] != null">
-                          <div class="relative" (mouseover)="tooltip2_status[k] = 3" (mouseout)="tooltip2_status[k] = 0">
-                            <div *ngIf="booster > 0 && payloadReady[k].boostScoreXTimes == 1" class="mr-2 cursor-pointer starContainer starContainer{{venue.id}}" id="starContainer{{venue.id}}">
-                              <svg
-                              (click)="calculateBooster(el, k)"
-                              class="star"
-                              title="Use Booster"
-                              xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><path d="M316.9 18C311.6 7 300.4 0 288.1 0s-23.4 7-28.8 18L195 150.3 51.4 171.5c-12 1.8-22 10.2-25.7 21.7s-.7 24.2 7.9 32.7L137.8 329 113.2 474.7c-2 12 3 24.2 12.9 31.3s23 8 33.8 2.3l128.3-68.5 128.3 68.5c10.8 5.7 23.9 4.9 33.8-2.3s14.9-19.3 12.9-31.3L438.5 329 542.7 225.9c8.6-8.5 11.7-21.2 7.9-32.7s-13.7-19.9-25.7-21.7L381.2 150.3 316.9 18z"/></svg>
+                          <div class="relative" (mouseover)="tooltip2_status[k] = 1" (mouseout)="tooltip2_status[k] = 0">
+                            <div class="group starGroup{{venue.id}} flex relative">
+                              <div *ngIf="booster > 0 && payloadReady[k].boostScoreXTimes == 1" class="mr-2 cursor-pointer starContainer starContainer{{venue.id}}" id="starContainer{{venue.id}}">
+                                <svg
+                                (click)="calculateBooster(el, k)"
+                                class="star star{{venue.id}}"
+                                title="Use Booster"
+                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><path d="M316.9 18C311.6 7 300.4 0 288.1 0s-23.4 7-28.8 18L195 150.3 51.4 171.5c-12 1.8-22 10.2-25.7 21.7s-.7 24.2 7.9 32.7L137.8 329 113.2 474.7c-2 12 3 24.2 12.9 31.3s23 8 33.8 2.3l128.3-68.5 128.3 68.5c10.8 5.7 23.9 4.9 33.8-2.3s14.9-19.3 12.9-31.3L438.5 329 542.7 225.9c8.6-8.5 11.7-21.2 7.9-32.7s-13.7-19.9-25.7-21.7L381.2 150.3 316.9 18z"/></svg>
+                              </div>
+                              <span class="tooltipStar hidden group-hover:block group-hover:opacity-100 w-max p-2 text-white transition-opacity bg-gray-800 text-sm text-gray-100 rounded-md absolute left-full
+                               opacity-0 m-4 mx-auto">Use Booster
+                              </span>
                             </div>
-                            <div *ngIf="tooltip2_status[k] == 3" role="tooltip" class="z-20 -mt-20 w-64 absolute transition duration-150 ease-in-out left-0 ml-8 shadow-lg bg-gray-800 p-4 rounded">
-                                <p class="text-sm font-bold text-white pb-1">Use Booster</p>
-                            </div>
+
                           </div>
                         </div>
                         <div *ngIf="gamesOnSlip[k] != null">
-                          <div class="relative" (mouseover)="tooltip1_status[k] = 3" (mouseout)="this.tooltip1_status[k] = 0">
-                            <div  class="mr-2 cursor-pointer">
-                              <svg
-                              (click)="deleteFromSlip($event, k)"
-                              class="bin"
-                              xmlns="http://www.w3.org/2000/svg"
-                              title="Use Booster"
-                              viewBox="0 0 448 512"><path d="M135.2 17.7L128 32H32C14.3 32 0 46.3 0 64S14.3 96 32 96H416c17.7 0 32-14.3 32-32s-14.3-32-32-32H320l-7.2-14.3C307.4 6.8 296.3 0 284.2 0H163.8c-12.1 0-23.2 6.8-28.6 17.7zM416 128H32L53.2 467c1.6 25.3 22.6 45 47.9 45H346.9c25.3 0 46.3-19.7 47.9-45L416 128z"/></svg>
+                          <div class="relative" (mouseover)="tooltip1_status[k] = 1" (mouseout)="this.tooltip1_status[k] = 0">
+
+                            <div class="group flex relative">
+                              <div  class="mr-2 cursor-pointer">
+                                <svg
+                                (click)="deleteFromSlip($event, k)"
+                                class="bin"
+                                xmlns="http://www.w3.org/2000/svg"
+                                title="Delete"
+                                viewBox="0 0 448 512"><path d="M135.2 17.7L128 32H32C14.3 32 0 46.3 0 64S14.3 96 32 96H416c17.7 0 32-14.3 32-32s-14.3-32-32-32H320l-7.2-14.3C307.4 6.8 296.3 0 284.2 0H163.8c-12.1 0-23.2 6.8-28.6 17.7zM416 128H32L53.2 467c1.6 25.3 22.6 45 47.9 45H346.9c25.3 0 46.3-19.7 47.9-45L416 128z"/></svg>
+                              </div>
+                              <span class="tooltipBin hidden group-hover:block group-hover:opacity-100 w-max p-2 text-white transition-opacity bg-gray-800 text-sm rounded-md absolute left-full
+                               opacity-0 m-4 mx-auto">Delete from slip
+                              </span>
                             </div>
-                            <div *ngIf="tooltip1_status[k] == 3" role="tooltip" class="z-20 -mt-20 w-64 absolute transition duration-150 ease-in-out left-0 ml-8 shadow-lg bg-gray-800 p-4 rounded">
+                            <!-- <div *ngIf="tooltip1_status[k] == 1" role="tooltip" class="z-20 -ml-20 text-white absolute transition duration-150 ease-in-out left-0 ml-8 shadow-lg bg-gray-800 p-4 rounded">
                                 <p class="text-sm font-bold text-white pb-1">Delete from slip</p>
-                            </div>
+                            </div> -->
                         </div>
                         </div>
                         <div class="w-2" *ngIf="gamesOnSlip[k] != null"></div>
@@ -276,7 +296,7 @@
                                         </td>
                                           <td class="py-3 px-6 text-center">
                                               <div class="flex items-center justify-center">
-                                                <span class="mx-2 w-12"><img src="{{ flagsURL }}{{game.team1.countryCode}}{{ extension }}"></span>
+                                                <span class="mx-2 w-12"><img src="assets/flags/{{game.team1.countryCode}}{{ extension }}"></span>
                                               </div>
                                           </td>
                                           <td class="py-3 px-4 text-center justify-end flex items-center">
@@ -335,7 +355,7 @@
                                           </td>
                                           <td class="py-3 px-6 text-center">
                                             <div class="flex items-center justify-center">
-                                              <span class="mx-2 w-12"><img src="{{ flagsURL }}{{game.team2.countryCode}}{{ extension }}"></span>
+                                              <span class="mx-2 w-12"><img src="assets/flags/{{game.team2.countryCode}}{{ extension }}"></span>
                                             </div>
                                           </td>
                                           <td class="py-3 pl-2 text-center flex items-center">
@@ -352,9 +372,8 @@
 
                     </ul>
                     <button type="button"
-                    id="addToSlip"
                     (click)="onClickAddToSlip($event, i, j)"
-                    class="absolute inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-md leading-tight rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out"
+                    class="addToSlip addToSlip{{game.id}} disabled:line-through disabled:opacity-60 disabled:bg-gray-700   absolute inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-md leading-tight rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out"
                     >Add to slip</button>
                   </div>
                 </div>

@@ -69,6 +69,9 @@ export class AdminAllGamesComponent implements OnInit {
           this.selectedOptionsTeam1 = []
           this.selectedOptionsTeam2 = []
           this.successMessage = "Score submitted successfully!";
+          setTimeout(() => {
+            this.successMessage = ""
+          }, 2000);
         }
 
       })
