@@ -60,6 +60,7 @@ export class PredictionComponent implements OnInit {
   unsortedPayload: any[] = []
   gamesOnSlipLength: number = null;
   gamesIdsOnSlip: number[] = [];
+  todaysDateAsNumber: number = 0
 
   // subscription: Subscription;
 
@@ -71,6 +72,16 @@ export class PredictionComponent implements OnInit {
     public router: Router) { }
 
   ngOnInit(): void {
+
+    let convertDateTime = function(num) { return ('00'+num).slice(-2) };
+    let todaysDateAsNumber;
+    todaysDateAsNumber = new Date();
+    todaysDateAsNumber = todaysDateAsNumber.getUTCFullYear()         +
+                  convertDateTime(todaysDateAsNumber.getUTCMonth() + 1)  +
+                  convertDateTime(todaysDateAsNumber.getUTCDate())       +
+                  convertDateTime(todaysDateAsNumber.getUTCHours())
+
+    this.todaysDateAsNumber = todaysDateAsNumber
 
     if (sessionStorage.getItem("currentUser") == null) {
       this.router.navigateByUrl('/login');
@@ -131,14 +142,42 @@ export class PredictionComponent implements OnInit {
             }
           });
 
+          this.searchForOutdatedGames();
+
           if (this.sortGamesByDatesArray[i].length == 0) {
             document.querySelectorAll('.dateIndicator' + i).forEach(el => el.remove())
             document.querySelectorAll('.currentGamesContainer' + i).forEach(el => el.remove())
-
           }
+
         }
       }
     }, 1000)
+
+  }
+
+  searchForOutdatedGames() {
+
+            // ------ create a long number by concatenating the date
+        // ------ to compare it to current date
+        // ------ if smaller remove the game because it has already started or it's finished
+        let longNumArray = []
+        for (let i = 0; i < this.allGames.length; i++) {
+           let num = Number(this.allGames[i].matchDateTime.slice(0, -9).replace("-", "").replace("-", "") + this.allGames[i].matchDateTime.slice(11, -6))
+           let obj = {};
+           Object.assign(obj, {
+            date: this.allGames[i].matchDateTime,
+            gameId: this.allGames[i].id,
+            longNumber: num
+           })
+           longNumArray.push(obj)
+        }
+
+        longNumArray.forEach((el, i) => {
+
+          if (this.todaysDateAsNumber > el.longNumber) {
+            document.querySelector('.singleGame')[el.gameId].remove()
+          }
+        })
 
   }
 
@@ -169,7 +208,6 @@ export class PredictionComponent implements OnInit {
 
           this.allDatesWithDays.push(obj)
         }
-
 
 
         for(let i = 0; i < sortGamesByDatesArray.length; i++) {
