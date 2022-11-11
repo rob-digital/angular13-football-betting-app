@@ -27,6 +27,7 @@ export class AdminAllGamesComponent implements OnInit {
     this.adminService.findGamesWithoutScore().subscribe(
       (response) => {
         this.allGames = response;
+        console.log('this.allGames_NO_SCORE:', this.allGames)
       },
       (error) => {
         console.log("admin-all-games error", error);

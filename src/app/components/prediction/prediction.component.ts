@@ -188,6 +188,7 @@ export class PredictionComponent implements OnInit {
     this.allGamesService.fetchNotPredictedGames(this.userId).subscribe(
       (response) => {
         this.allGames = response
+        console.log('allGames:', this.allGames)
 
         const uniqueDates = new Set(this.allGames.map(el => el.matchDateTime.slice(0, -9)))
         let allDatesArray = [...uniqueDates]
