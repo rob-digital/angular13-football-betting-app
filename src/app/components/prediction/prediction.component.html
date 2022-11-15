@@ -113,9 +113,14 @@
             class="modal-content border-none shadow-lg relative flex flex-col w-full pointer-events-auto bg-white bg-clip-padding rounded-md outline-none text-current">
             <div
               class="modal-header flex flex-shrink-0 items-center justify-between p-4 border-b border-gray-200 rounded-t-md">
-              <h5 class="text-lg font-medium leading-tight text-gray-800">
+             <div>
+              <h5 class="text-lg font-medium leading-tight text-gray-800 w-full">
                 <span  class="inline-block py-1.5 px-2.5 leading-none text-center whitespace-nowrap align-baseline font-bold bg-highlight1 text-white  rounded">Boosters left: {{ booster }}</span>
               </h5>
+              <h5  class="text-sm font-medium leading-tight text-white text-start boosterInfo h-6">
+                <span *ngIf="booster > 0 && gamesOnSlip.length > 0" class="inline-block py-1.5 px-2.5 leading-none text-center whitespace-nowrap align-baseline font-bold bg-black text-white  rounded">{{ clickStar }}</span>
+              </h5>
+             </div>
               <button type="button"
               (click)="closedModal()"
                 class="btn-close box-content w-4 h-4 p-1 text-black border-none rounded-none opacity-50 focus:shadow-none focus:outline-none focus:opacity-100 hover:text-black hover:opacity-75 hover:no-underline"

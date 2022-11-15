@@ -21,11 +21,13 @@ export class AdminComponent implements OnInit {
   ngOnInit(): void {
     this.adminService.findAllUsers().subscribe(data => {
       this.userList = data;
+      console.log('this.userList:', this.userList)
     });
 
     this.tableService.getAllTeams().subscribe(
       (response: Team[]) => {
         this.allTeams = response;
+        console.log('this.allTeams:', this.allTeams)
       })
 
   }

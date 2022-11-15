@@ -37,6 +37,7 @@ export class LoginComponent implements OnInit {
 
 
     }, error => {
+      this.inTransit = false
       if (error?.status === 500) {
         console.log("Server error! Data not available!");
         this.loginError = "Server error! Data not available!";

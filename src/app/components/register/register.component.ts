@@ -61,6 +61,7 @@ export class RegisterComponent implements OnInit {
       }
 
     }, err => {
+      this.inTransit = false
       if (err?.status === 409) {
         this.errorMessage = 'Username already exists.';
       } else {

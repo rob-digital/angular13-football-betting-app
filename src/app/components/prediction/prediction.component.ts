@@ -23,6 +23,7 @@ export class PredictionComponent implements OnInit {
   warningMessage: string = "";
   errorMessage: string = "";
   successMessage: string = "";
+  clickStar: string = "";
 
   allGames: any[] = null;
   values: number[] = [0,1,2,3,4,5,6,7,8,9]
@@ -60,7 +61,7 @@ export class PredictionComponent implements OnInit {
   unsortedPayload: any[] = []
   gamesOnSlipLength: number = null;
   gamesIdsOnSlip: number[] = [];
-  todaysDateAsNumber: number = 0
+  todaysDateAsNumber: number = 0;
 
   // subscription: Subscription;
 
@@ -73,15 +74,6 @@ export class PredictionComponent implements OnInit {
 
   ngOnInit(): void {
 
-    let convertDateTime = function(num) { return ('00'+num).slice(-2) };
-    let todaysDateAsNumber;
-    todaysDateAsNumber = new Date();
-    todaysDateAsNumber = todaysDateAsNumber.getUTCFullYear()         +
-                  convertDateTime(todaysDateAsNumber.getUTCMonth() + 1)  +
-                  convertDateTime(todaysDateAsNumber.getUTCDate())       +
-                  convertDateTime(todaysDateAsNumber.getUTCHours())
-
-    this.todaysDateAsNumber = todaysDateAsNumber
 
     if (sessionStorage.getItem("currentUser") == null) {
       this.router.navigateByUrl('/login');
@@ -129,7 +121,7 @@ export class PredictionComponent implements OnInit {
                 this.selectedOptionsTeam1 = []
                 this.selectedOptionsTeam2 = []
 
-                this.slipText = "One of the games from your slip has already started. Your slip was cleared. Please place your predictions again."
+                this.slipText = "One of the games has already started. Your slip was cleared. Please place your predictions again."
                 document.getElementById('saveModalButton').style.display = 'none';
 
                 this.initiatePage()
@@ -157,9 +149,20 @@ export class PredictionComponent implements OnInit {
 
   searchForOutdatedGames() {
 
-            // ------ create a long number by concatenating the date
+        // ------ create a long number by concatenating the date
         // ------ to compare it to current date
         // ------ if smaller remove the game because it has already started or it's finished
+
+        let convertDate = function(num) { return ('00'+num).slice(-2) };
+        let todaysDateAsNumber;
+        todaysDateAsNumber = new Date();
+        todaysDateAsNumber = todaysDateAsNumber.getUTCFullYear()         +
+                      convertDate(todaysDateAsNumber.getUTCMonth() + 1)  +
+                      convertDate(todaysDateAsNumber.getUTCDate())       +
+                      convertDate(todaysDateAsNumber.getUTCHours())
+
+        // this.todaysDateAsNumber = todaysDateAsNumber
+
         let longNumArray = []
         for (let i = 0; i < this.allGames.length; i++) {
            let num = Number(this.allGames[i].matchDateTime.slice(0, -9).replace("-", "").replace("-", "") + this.allGames[i].matchDateTime.slice(11, -6))
@@ -174,8 +177,11 @@ export class PredictionComponent implements OnInit {
 
         longNumArray.forEach((el, i) => {
 
-          if (this.todaysDateAsNumber > el.longNumber) {
-            document.querySelector('.singleGame')[el.gameId].remove()
+          if (todaysDateAsNumber >= el.longNumber) {
+          if (document.querySelector('.singleGame' + el.gameId)) {
+              document.querySelector('.singleGame' + el.gameId).remove()
+              this.initiatePage();
+            }
           }
         })
 
@@ -188,7 +194,6 @@ export class PredictionComponent implements OnInit {
     this.allGamesService.fetchNotPredictedGames(this.userId).subscribe(
       (response) => {
         this.allGames = response
-        console.log('allGames:', this.allGames)
 
         const uniqueDates = new Set(this.allGames.map(el => el.matchDateTime.slice(0, -9)))
         let allDatesArray = [...uniqueDates]
@@ -366,6 +371,9 @@ export class PredictionComponent implements OnInit {
     this.gamesOnSlip.sort((a, b) => a.id - b.id)
     this.payloadReady.sort((a, b) => a.game_id - b.game_id)
 
+    if (this.gamesOnSlip.length > 0)
+      this.clickStar = "Click a star to activate a booster"
+
     for (let i = 0; i < localPayloadToSubmit.length; i++) {
       this.gamesIdsOnSlip.push(localPayloadToSubmit[i].game_id)
       document.querySelector('.addToSlip' + localPayloadToSubmit[i].game_id).setAttribute('disabled', 'true')
@@ -422,7 +430,7 @@ export class PredictionComponent implements OnInit {
   let gameIndex = this.unsortedPayload.indexOf(clickedPrediction)
 
   let newStar = `
-  <div _ngcontent-vyd-c48="" class="cursor-pointer mr-2 starContainer starContainer${gameIndex}" id="starContainer${gameIndex}"><svg _ngcontent-vyd-c48="" title="Use Booster" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" class="star star${gameIndex}"><path _ngcontent-vyd-c48="" d="M316.9 18C311.6 7 300.4 0 288.1 0s-23.4 7-28.8 18L195 150.3 51.4 171.5c-12 1.8-22 10.2-25.7 21.7s-.7 24.2 7.9 32.7L137.8 329 113.2 474.7c-2 12 3 24.2 12.9 31.3s23 8 33.8 2.3l128.3-68.5 128.3 68.5c10.8 5.7 23.9 4.9 33.8-2.3s14.9-19.3 12.9-31.3L438.5 329 542.7 225.9c8.6-8.5 11.7-21.2 7.9-32.7s-13.7-19.9-25.7-21.7L381.2 150.3 316.9 18z"></path></svg></div>
+  <div _ngcontent-vyd-c48="" class="cursor-pointer mr-2 starContainer starContainer${gameId}" id="starContainer${gameId}"><svg _ngcontent-vyd-c48="" title="Use Booster" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" class="star star${gameId}"><path _ngcontent-vyd-c48="" d="M316.9 18C311.6 7 300.4 0 288.1 0s-23.4 7-28.8 18L195 150.3 51.4 171.5c-12 1.8-22 10.2-25.7 21.7s-.7 24.2 7.9 32.7L137.8 329 113.2 474.7c-2 12 3 24.2 12.9 31.3s23 8 33.8 2.3l128.3-68.5 128.3 68.5c10.8 5.7 23.9 4.9 33.8-2.3s14.9-19.3 12.9-31.3L438.5 329 542.7 225.9c8.6-8.5 11.7-21.2 7.9-32.7s-13.7-19.9-25.7-21.7L381.2 150.3 316.9 18z"></path></svg></div>
   `
 
   if (this.booster < 3 && this.booster >= 0) {
