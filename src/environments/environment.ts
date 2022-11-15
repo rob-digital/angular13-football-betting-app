@@ -4,8 +4,8 @@
 
 export const environment = {
   production: false,
-  // BASE_URL: "http://localhost:6060",
-  BASE_URL: "http://CSEVWEBST25:6060",
+  BASE_URL: "http://localhost:6060",
+  // BASE_URL: "http://CSEVWEBST25:6060",
   // BASE_URL: "http://edinlp0127:6060"
  //  http://csevwebst25:8082/FootballTipping2022
 };
